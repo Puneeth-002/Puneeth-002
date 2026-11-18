@@ -1,12 +1,14 @@
 /**
- * Puneeth s gowda - Video Editor Portfolio
- * Interactive Features & Accessibility Scripts
+ * Puneeth s gowda — Film Journal Portfolio
+ * Interactive Timeline Scrubber, Contact Sheet, Modal & Accessibility Scripts
  */
 
 document.addEventListener('DOMContentLoaded', () => {
+  initTimelinePlayhead();
   initHeaderScroll();
   initMobileNav();
-  initFilterTabs();
+  initPortraitParallax();
+  initContactSheetFilters();
   initVideoModal();
   initEmailCopy();
   initContactForm();
@@ -14,7 +16,44 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 /**
- * 1. Header scroll visual elevation
+ * 1. Persistent Timeline Scrubber & Live Timecode Tracker
+ * Updates scrubber width and timecode as visitor scrolls through the portfolio.
+ */
+function initTimelinePlayhead() {
+  const progressBar = document.getElementById('playheadProgress');
+  const timecodeElements = document.querySelectorAll('.live-timecode');
+
+  const updateScrubber = () => {
+    const scrollY = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const progressRatio = docHeight > 0 ? Math.min(Math.max(scrollY / docHeight, 0), 1) : 0;
+    const progressPercent = (progressRatio * 100).toFixed(2);
+
+    if (progressBar) {
+      progressBar.style.width = `${progressPercent}%`;
+    }
+
+    // Convert progress ratio into a 5-minute reel simulated timecode [00:MM:SS:FF]
+    // 300 total seconds (5 minutes) @ 24 fps
+    const totalFrames = Math.floor(progressRatio * 300 * 24);
+    const frames = String(totalFrames % 24).padStart(2, '0');
+    const totalSeconds = Math.floor(totalFrames / 24);
+    const seconds = String(totalSeconds % 60).padStart(2, '0');
+    const minutes = String(Math.floor(totalSeconds / 60)).padStart(2, '0');
+    const tcString = `00:${minutes}:${seconds}:${frames}`;
+
+    timecodeElements.forEach(el => {
+      el.textContent = tcString;
+    });
+  };
+
+  window.addEventListener('scroll', updateScrubber, { passive: true });
+  window.addEventListener('resize', updateScrubber, { passive: true });
+  updateScrubber();
+}
+
+/**
+ * 2. Header background styling on scroll
  */
 function initHeaderScroll() {
   const header = document.querySelector('.site-header');
@@ -33,7 +72,7 @@ function initHeaderScroll() {
 }
 
 /**
- * 2. Accessible Mobile Navigation
+ * 3. Accessible Mobile Navigation
  */
 function initMobileNav() {
   const toggleBtn = document.querySelector('.nav-toggle');
@@ -59,14 +98,12 @@ function initMobileNav() {
     link.addEventListener('click', () => toggleMenu(false));
   });
 
-  // Close when clicking outside
   document.addEventListener('click', (e) => {
     if (!toggleBtn.contains(e.target) && !mobileNav.contains(e.target) && mobileNav.classList.contains('open')) {
       toggleMenu(false);
     }
   });
 
-  // Close on Escape key
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && mobileNav.classList.contains('open')) {
       toggleMenu(false);
@@ -76,23 +113,52 @@ function initMobileNav() {
 }
 
 /**
- * 3. Showreel Category Filtering
+ * 4. Subtle Portrait Movement on Scroll (Respects Reduced Motion)
  */
-function initFilterTabs() {
-  const filterBtns = document.querySelectorAll('.filter-btn');
-  const videoCards = document.querySelectorAll('.video-card');
+function initPortraitParallax() {
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (prefersReduced) return;
 
-  if (!filterBtns.length || !videoCards.length) return;
+  const portrait = document.getElementById('heroPortraitImg');
+  if (!portrait) return;
+
+  let ticking = false;
+
+  const onScroll = () => {
+    if (!ticking) {
+      window.requestAnimationFrame(() => {
+        const scrollY = window.scrollY;
+        if (scrollY < window.innerHeight) {
+          // Very subtle translateY shift of at most 12px
+          const shift = (scrollY * 0.04).toFixed(1);
+          portrait.style.transform = `scale(1.02) translateY(${shift}px)`;
+        }
+        ticking = false;
+      });
+      ticking = true;
+    }
+  };
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+}
+
+/**
+ * 5. Contact Sheet Category Filtering
+ */
+function initContactSheetFilters() {
+  const filterBtns = document.querySelectorAll('.sheet-filter-btn');
+  const projectCards = document.querySelectorAll('.project-card');
+
+  if (!filterBtns.length || !projectCards.length) return;
 
   filterBtns.forEach(btn => {
     btn.addEventListener('click', () => {
-      // Update active button state
       filterBtns.forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
 
       const filterValue = btn.getAttribute('data-filter');
 
-      videoCards.forEach(card => {
+      projectCards.forEach(card => {
         const category = card.getAttribute('data-category');
         if (filterValue === 'all' || category === filterValue || category?.includes(filterValue)) {
           card.style.display = 'flex';
@@ -110,7 +176,7 @@ function initFilterTabs() {
 }
 
 /**
- * 4. Accessible Video Modal / Lightbox
+ * 6. Accessible Video Lightbox / Modal
  */
 function initVideoModal() {
   const modal = document.getElementById('videoModal');
@@ -128,15 +194,12 @@ function initVideoModal() {
   const openModal = (data) => {
     lastFocusedElement = document.activeElement;
 
-    // Set text details
     if (modalTitle) modalTitle.textContent = data.title || 'Video Preview';
-    if (modalCategory) modalCategory.textContent = data.category || 'Portfolio Work';
-    if (modalNotes) modalNotes.textContent = data.notes || 'Pacing, cut timing, and clean transitions.';
+    if (modalCategory) modalCategory.textContent = data.category || 'Selected Work';
+    if (modalNotes) modalNotes.textContent = data.notes || 'Pacing, sound design, and cut timing.';
 
-    // Populate media player
     if (playerContainer) {
       if (data.url && (data.url.includes('youtube.com') || data.url.includes('youtu.be') || data.url.includes('vimeo.com'))) {
-        // Embed YouTube / Vimeo iframe
         playerContainer.innerHTML = `
           <iframe 
             src="${escapeHtml(data.url)}" 
@@ -147,24 +210,25 @@ function initVideoModal() {
           </iframe>
         `;
       } else if (data.url && data.url.endsWith('.mp4')) {
-        // Direct HTML5 Video
+        // Muted by default with clear control to enable audio
         playerContainer.innerHTML = `
-          <video controls autoplay playsinline style="width:100%; height:100%; object-fit:contain; background:#000;">
+          <video controls playsinline style="width:100%; height:100%; object-fit:contain; background:#000;">
             <source src="${escapeHtml(data.url)}" type="video/mp4">
             Your browser does not support HTML5 video.
           </video>
         `;
       } else {
-        // Cinematic interactive placeholder preview with quick play guide
+        // Film-Journal Style Preview Prompt
         playerContainer.innerHTML = `
           <div class="modal-placeholder-preview">
-            <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-              <polygon points="5 3 19 12 5 21 5 3"></polygon>
+            <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="color: var(--accent);">
+              <circle cx="12" cy="12" r="10"></circle>
+              <polygon points="10 8 16 12 10 16 10 8" fill="var(--accent)"></polygon>
             </svg>
-            <div style="max-width: 440px;">
-              <h4 style="font-size: 1.15rem; color: #f5f4ef; margin-bottom: 0.4rem;">${escapeHtml(data.title || 'Video Placeholder')}</h4>
-              <p style="font-size: 0.88rem; color: #c8c5bc; line-height: 1.5; margin-bottom: 1rem;">
-                This is a placeholder card ready for your video. When you edit <code>index.html</code>, replace <code>data-video-url</code> with your YouTube, Vimeo, or MP4 link!
+            <div style="max-width: 480px;">
+              <h4 style="font-size: 1.15rem; color: #f8f7f2; margin-bottom: 0.5rem; font-weight: 700;">${escapeHtml(data.title || 'Project Preview')}</h4>
+              <p style="font-size: 0.9rem; color: #bab6aa; line-height: 1.55; margin-bottom: 1.25rem;">
+                This project card is ready for your footage. To display your actual video, open <code>index.html</code> and update <code>data-video-url</code> with your YouTube embed, Vimeo link, or local <code>.mp4</code> file!
               </p>
               <span class="modal-helper-tip">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -172,7 +236,7 @@ function initVideoModal() {
                   <line x1="12" y1="16" x2="12" y2="12"></line>
                   <line x1="12" y1="8" x2="12.01" y2="8"></line>
                 </svg>
-                Easy edit: find [${escapeHtml(data.id || 'card')}] in index.html
+                Find [${escapeHtml(data.id || 'card')}] in index.html to insert your link
               </span>
             </div>
           </div>
@@ -198,16 +262,15 @@ function initVideoModal() {
     }
   };
 
-  // Attach click to all trigger elements
   triggerElements.forEach(elem => {
     elem.addEventListener('click', (e) => {
       e.preventDefault();
-      const card = elem.closest('.video-card') || elem.closest('.hero-preview-card') || elem;
+      const card = elem.closest('.project-card') || elem.closest('.film-monitor-frame') || elem;
       const data = {
-        id: card.getAttribute('data-id') || 'video',
-        title: card.getAttribute('data-title') || card.querySelector('.card-title, h4')?.textContent?.trim(),
-        category: card.getAttribute('data-category-label') || card.querySelector('.card-badge-top-left, .preview-tag')?.textContent?.trim(),
-        notes: card.getAttribute('data-notes') || card.querySelector('.card-desc')?.textContent?.trim(),
+        id: card.getAttribute('data-id') || 'project',
+        title: card.getAttribute('data-title') || card.querySelector('.card-project-title, h4')?.textContent?.trim(),
+        category: card.getAttribute('data-category-label') || card.querySelector('.card-project-type, .frame-role-tag')?.textContent?.trim(),
+        notes: card.getAttribute('data-notes') || card.querySelector('.card-project-desc')?.textContent?.trim(),
         url: card.getAttribute('data-video-url') || ''
       };
       openModal(data);
@@ -216,14 +279,12 @@ function initVideoModal() {
 
   closeBtn.addEventListener('click', closeModal);
 
-  // Close on backdrop click outside modal-dialog
   modal.addEventListener('click', (e) => {
     if (e.target === modal) {
       closeModal();
     }
   });
 
-  // Close on ESC key & keyboard trap
   modal.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
       closeModal();
@@ -232,7 +293,7 @@ function initVideoModal() {
 }
 
 /**
- * 5. One-Click Email Copy to Clipboard
+ * 7. One-Click Copy Email to Clipboard
  */
 function initEmailCopy() {
   const copyBtn = document.getElementById('copyEmailBtn');
@@ -246,7 +307,6 @@ function initEmailCopy() {
       if (navigator.clipboard && window.isSecureContext) {
         await navigator.clipboard.writeText(emailToCopy);
       } else {
-        // Fallback for non-secure / local context
         const tempInput = document.createElement('input');
         tempInput.value = emailToCopy;
         document.body.appendChild(tempInput);
@@ -257,10 +317,10 @@ function initEmailCopy() {
 
       const originalHtml = copyBtn.innerHTML;
       copyBtn.innerHTML = `
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <polyline points="20 6 9 17 4 12"></polyline>
         </svg>
-        Copied!
+        COPIED!
       `;
       copyBtn.style.color = '#4ade80';
 
@@ -269,13 +329,13 @@ function initEmailCopy() {
         copyBtn.style.color = '';
       }, 2200);
     } catch (err) {
-      console.warn('Clipboard copy failed:', err);
+      console.warn('Clipboard copy error:', err);
     }
   });
 }
 
 /**
- * 6. Contact Form Validation & Friendly Confirmation
+ * 8. Contact Form Validation & Friendly Confirmation
  */
 function initContactForm() {
   const form = document.getElementById('contactForm');
@@ -300,7 +360,6 @@ function initContactForm() {
     submitBtn.disabled = true;
     submitBtn.innerHTML = 'Sending...';
 
-    // Simulate sending without external backend dependency
     setTimeout(() => {
       submitBtn.disabled = false;
       submitBtn.innerHTML = originalBtnText;
@@ -309,22 +368,22 @@ function initContactForm() {
       if (alertBox) {
         alertBox.className = 'form-alert success';
         alertBox.innerHTML = `
-          <strong>Thank you!</strong> Your message placeholder was sent. Puneeth will review it and reply soon.
+          <strong>Message received!</strong> Thanks for reaching out. Puneeth will review your project details and get back to you shortly.
         `;
         alertBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
       }
-    }, 600);
+    }, 550);
   });
 }
 
 /**
- * 7. Back to Top Smooth Scroll
+ * 9. Back To Top Action
  */
 function initBackToTop() {
-  const backToTopBtn = document.getElementById('backToTopBtn');
-  if (!backToTopBtn) return;
+  const btn = document.getElementById('backToTopBtn');
+  if (!btn) return;
 
-  backToTopBtn.addEventListener('click', (e) => {
+  btn.addEventListener('click', (e) => {
     e.preventDefault();
     window.scrollTo({
       top: 0,
@@ -333,9 +392,6 @@ function initBackToTop() {
   });
 }
 
-/**
- * Helper to prevent XSS in modal output
- */
 function escapeHtml(string) {
   if (!string) return '';
   return String(string)
