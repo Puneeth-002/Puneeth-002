@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="800" height="450">
+  <defs>
+    <linearGradient id="socialBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#141822"/>
+      <stop offset="100%" stop-color="#0c0e13"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="800" height="450" fill="url(#socialBg)"/>
+
+  <!-- Phone Mockup Frame centered -->
+  <rect x="295" y="45" width="210" height="360" rx="26" fill="#151922" stroke="#2c3342" stroke-width="3"/>
+  <rect x="305" y="55" width="190" height="340" rx="18" fill="#0d0f14"/>
+
+  <!-- Speaker notch -->
+  <rect x="375" y="65" width="50" height="5" rx="2.5" fill="#2c3342"/>
+
+  <!-- Simulated 9:16 content inside phone -->
+  <!-- Top bar info -->
+  <circle cx="330" cy="95" r="12" fill="#2d3545"/>
+  <rect x="350" y="90" width="70" height="10" rx="3" fill="#3f4b61"/>
+
+  <!-- Center dynamic caption sticker -->
+  <rect x="325" y="195" width="150" height="40" rx="8" fill="#e5a952"/>
+  <text x="400" y="221" fill="#0f1115" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="13" font-weight="800" text-anchor="middle" letter-spacing="1">ENGAGING HOOK</text>
+
+  <!-- Sound wave under captions -->
+  <g fill="#e5a952" opacity="0.7">
+    <rect x="355" y="250" width="4" height="18" rx="2"/>
+    <rect x="365" y="244" width="4" height="30" rx="2"/>
+    <rect x="375" y="240" width="4" height="38" rx="2"/>
+    <rect x="385" y="246" width="4" height="26" rx="2"/>
+    <rect x="395" y="238" width="4" height="42" rx="2"/>
+    <rect x="405" y="242" width="4" height="34" rx="2"/>
+    <rect x="415" y="248" width="4" height="22" rx="2"/>
+    <rect x="425" y="245" width="4" height="28" rx="2"/>
+    <rect x="435" y="252" width="4" height="14" rx="2"/>
+  </g>
+
+  <!-- Engagement icons on right edge of phone -->
+  <circle cx="475" cy="270" r="10" fill="#252b38"/>
+  <circle cx="475" cy="300" r="10" fill="#252b38"/>
+  <circle cx="475" cy="330" r="10" fill="#252b38"/>
+
+  <!-- Play button overlay -->
+  <circle cx="400" cy="150" r="26" fill="rgba(15,17,21,0.85)" stroke="#e5a952" stroke-width="1.5"/>
+  <polygon points="396,140 408,150 396,160" fill="#e5a952"/>
+
+  <!-- Left details panel -->
+  <rect x="50" y="60" width="130" height="26" rx="4" fill="#1b202a" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+  <text x="115" y="77" fill="#e5a952" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="600" text-anchor="middle" letter-spacing="1">9:16 VERTICAL</text>
+
+  <!-- Right details panel -->
+  <text x="730" y="77" fill="#a3a199" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="13" font-weight="500" text-anchor="end">00:30 • Reels / Shorts</text>
+  
+  <text x="400" y="430" fill="#8d8b83" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="12" text-anchor="middle">Fast cuts • Dynamic captions • Sound effects</text>
+</svg>

@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="800" height="450">
+  <defs>
+    <linearGradient id="eventBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#191722"/>
+      <stop offset="100%" stop-color="#0f1118"/>
+    </linearGradient>
+    <linearGradient id="beam1" x1="0%" y1="0%" x2="50%" y2="100%">
+      <stop offset="0%" stop-color="#e5a952" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#e5a952" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="beam2" x1="100%" y1="0%" x2="50%" y2="100%">
+      <stop offset="0%" stop-color="#f0bd6a" stop-opacity="0.25"/>
+      <stop offset="100%" stop-color="#f0bd6a" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="800" height="450" fill="url(#eventBg)"/>
+
+  <!-- Stage lighting beams -->
+  <polygon points="120,0 260,0 480,450 320,450" fill="url(#beam1)"/>
+  <polygon points="680,0 540,0 320,450 480,450" fill="url(#beam2)"/>
+
+  <!-- Ambient particles -->
+  <circle cx="280" cy="180" r="3" fill="#e5a952" opacity="0.6"/>
+  <circle cx="340" cy="120" r="2" fill="#fff" opacity="0.5"/>
+  <circle cx="480" cy="140" r="3" fill="#e5a952" opacity="0.7"/>
+  <circle cx="520" cy="220" r="2" fill="#fff" opacity="0.4"/>
+  <circle cx="390" cy="90" r="2.5" fill="#e5a952" opacity="0.5"/>
+
+  <!-- Crowd silhouette at bottom -->
+  <path d="M 80 450 Q 140 400, 200 450 Q 260 410, 320 450 Q 380 395, 440 450 Q 500 405, 560 450 Q 620 390, 680 450 Q 740 415, 800 450 L 800 450 L 80 450 Z" fill="#141720"/>
+
+  <!-- Play button -->
+  <circle cx="400" cy="210" r="38" fill="rgba(18,20,26,0.9)" stroke="#e5a952" stroke-width="2"/>
+  <polygon points="394,196 414,210 394,224" fill="#e5a952"/>
+
+  <!-- Top badge -->
+  <rect x="50" y="40" width="140" height="26" rx="4" fill="#1b1c26" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+  <text x="120" y="57" fill="#e5a952" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="600" text-anchor="middle" letter-spacing="1">EVENT RECAP</text>
+
+  <text x="730" y="58" fill="#a3a199" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="13" font-weight="500" text-anchor="end">02:20 • Highlight Film</text>
+
+  <!-- Title -->
+  <text x="400" y="315" fill="#f5f4f0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="18" font-weight="600" text-anchor="middle">Event Recap &amp; Highlight Reel</text>
+  <text x="400" y="340" fill="#a3a199" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="13" text-anchor="middle">Music beat sync • Emotion &amp; energy • Key moment pacing</text>
+</svg>

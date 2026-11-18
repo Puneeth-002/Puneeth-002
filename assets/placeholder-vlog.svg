@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="800" height="450">
+  <defs>
+    <linearGradient id="vlogBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#181922"/>
+      <stop offset="100%" stop-color="#0f1117"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="800" height="450" fill="url(#vlogBg)"/>
+
+  <!-- Rule of thirds camera grid overlay -->
+  <line x1="266" y1="50" x2="266" y2="400" stroke="rgba(255,255,255,0.06)" stroke-dasharray="4 4"/>
+  <line x1="533" y1="50" x2="533" y2="400" stroke="rgba(255,255,255,0.06)" stroke-dasharray="4 4"/>
+  <line x1="80" y1="166" x2="720" y2="166" stroke="rgba(255,255,255,0.06)" stroke-dasharray="4 4"/>
+  <line x1="80" y1="283" x2="720" y2="283" stroke="rgba(255,255,255,0.06)" stroke-dasharray="4 4"/>
+
+  <!-- Cinematic landscape silhouette in warm muted tones -->
+  <path d="M 80 340 L 220 230 L 340 310 L 460 210 L 600 320 L 720 270 L 720 370 L 80 370 Z" fill="#202633" opacity="0.6"/>
+  <path d="M 120 370 L 290 260 L 430 330 L 570 240 L 720 330 L 720 370 L 120 370 Z" fill="#171c26" opacity="0.8"/>
+
+  <!-- Play button -->
+  <circle cx="400" cy="210" r="38" fill="rgba(18,20,26,0.85)" stroke="#e5a952" stroke-width="2"/>
+  <polygon points="394,196 414,210 394,224" fill="#e5a952"/>
+
+  <!-- Top format badges -->
+  <rect x="50" y="40" width="130" height="26" rx="4" fill="#1a1e27" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+  <text x="115" y="57" fill="#e5a952" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="600" text-anchor="middle" letter-spacing="1">YOUTUBE / VLOG</text>
+
+  <text x="730" y="58" fill="#a3a199" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="13" font-weight="500" text-anchor="end">04:15 • 16:9 Landscape</text>
+
+  <!-- Bottom title -->
+  <text x="400" y="325" fill="#f5f4f0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="18" font-weight="600" text-anchor="middle">Storytelling &amp; B-Roll Assembly</text>
+  <text x="400" y="350" fill="#a3a199" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="13" text-anchor="middle">Narrative arc • Ambient audio mixing • Color matching</text>
+</svg>

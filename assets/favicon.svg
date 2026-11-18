@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <rect width="64" height="64" rx="16" fill="#0f1115"/>
+  <rect x="2" y="2" width="60" height="60" rx="14" fill="none" stroke="#252932" stroke-width="2"/>
+  <!-- Film perforation strip -->
+  <rect x="8" y="10" width="8" height="6" rx="2" fill="#e5a952" opacity="0.8"/>
+  <rect x="8" y="22" width="8" height="6" rx="2" fill="#e5a952" opacity="0.8"/>
+  <rect x="8" y="34" width="8" height="6" rx="2" fill="#e5a952" opacity="0.8"/>
+  <rect x="8" y="46" width="8" height="6" rx="2" fill="#e5a952" opacity="0.8"/>
+  <!-- Play triangle symbol -->
+  <polygon points="26,18 50,32 26,46" fill="#e5a952"/>
+</svg>
