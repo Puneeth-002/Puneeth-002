@@ -87,11 +87,29 @@ In `index.html` under `<section id="contact">`:
 ### 4. Customizing the "First Collaborations" Offer
 In `index.html` under `<section id="first-collaborations">`, you can adjust the introductory rate notes, delivery turnaround expectations, or specific project terms anytime.
 
+### 5. Hover Video Previews on Project Cards
+Each project card now supports optional live video previews when hovered or focused:
+- You can add `data-preview-video="path/to/preview.mp4"` to any `<article class="project-card">`, or insert a source inside the card's `<video class="card-hover-video">`.
+- Videos play strictly **muted** and stop / rewind automatically when the mouse or focus leaves.
+- On touchscreens (mobile/tablet), cards remain tap-friendly without hover conflicts.
+
+---
+
+## 🎞️ Built-in Animations & Motion Details
+
+1. **Hero Entrance**: Non-blocking staged entrance under 1.0s. Reveals the hero portrait frame first, followed by the director title and bio, then CTA buttons.
+2. **Scroll Reveals**: Sections, headers, and project cards fade in and float up smoothly via `IntersectionObserver`. Content remains 100% visible if JavaScript is disabled.
+3. **Portrait Motion**: Gentle GPU-accelerated slow zoom (1.000 to 1.055) and vertical parallax inside an `overflow: hidden` frame to prevent layout shift.
+4. **Project Card Hover**: Cards elevate by 8px, thumbnail photos scale and brighten (`brightness: 1.12`), and play discs expand.
+5. **Editing Playhead**: A thin NLE timeline ribbon above the Selected Work contact sheet that tracks scroll progress with a moving needle, progress fill, and live `00:MM:SS:FF` timecode.
+6. **Scroll Cue**: Subtle floating loop animation with an interactive click handler that smoothly scrolls into the work section.
+7. **Accessibility (`prefers-reduced-motion`)**: Fully respects reduced motion by disabling parallax, looping animations, and scroll offsets while displaying all content immediately.
+
 ---
 
 ## 🚀 Local Preview
 
-Double-click `index.html` to open it in Chrome, Edge, or any web browser.
+Double-click `index.html` to open it in Chrome, Edge, Safari, or any web browser.
 
 ---
 

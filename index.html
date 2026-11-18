@@ -156,11 +156,11 @@
               </a>
             </div>
 
-            <!-- Scroll To Explore Cue -->
-            <div class="scroll-cue">
+            <!-- Scroll To Explore Cue (Animated Looping Movement) -->
+            <a href="#selected-work" class="scroll-cue" id="heroScrollCue" aria-label="Scroll to explore the cut sheet">
               <div class="scroll-playhead-icon" aria-hidden="true"></div>
               <span>Scroll to explore the cut sheet</span>
-            </div>
+            </a>
           </div>
 
           <!-- Hero Portrait — Paused Film Monitor Frame -->
@@ -227,7 +227,7 @@
       <div class="container">
         
         <!-- Journal Section Header -->
-        <div class="journal-header">
+        <div class="journal-header reveal-item">
           <span class="journal-slug">Contact Sheet // Reel</span>
           <h2 class="journal-title">Selected Edits &amp; Assemblies</h2>
           <p class="journal-subtitle">
@@ -235,8 +235,44 @@
           </p>
         </div>
 
+        <!-- Section Editing Playhead / Timeline Detail (Progresses as visitor scrolls selected work) -->
+        <div class="work-timeline-panel reveal-item" id="workTimelinePanel" aria-hidden="true">
+          <div class="work-timeline-header">
+            <div class="work-timeline-tag">
+              <span class="work-timeline-dot"></span>
+              <span class="work-timeline-name">TIMELINE // SEQUENCE 01 (SELECTED WORK)</span>
+            </div>
+            <div class="work-timeline-readout">
+              <span class="readout-label">TC:</span>
+              <span class="readout-val" id="workPlayheadTimecode">00:00:00:00</span>
+            </div>
+          </div>
+          <div class="work-timeline-track-wrap">
+            <div class="work-timeline-ticks">
+              <span class="tick-mark major" data-tc="00:00"></span>
+              <span class="tick-mark"></span>
+              <span class="tick-mark"></span>
+              <span class="tick-mark major" data-tc="01:15"></span>
+              <span class="tick-mark"></span>
+              <span class="tick-mark"></span>
+              <span class="tick-mark major" data-tc="02:30"></span>
+              <span class="tick-mark"></span>
+              <span class="tick-mark"></span>
+              <span class="tick-mark major" data-tc="03:45"></span>
+              <span class="tick-mark"></span>
+              <span class="tick-mark"></span>
+              <span class="tick-mark major" data-tc="05:00"></span>
+            </div>
+            <div class="work-timeline-progress-bar" id="workTimelineProgressBar"></div>
+            <div class="work-playhead-needle" id="workPlayheadNeedle">
+              <div class="needle-flag"></div>
+              <div class="needle-stem"></div>
+            </div>
+          </div>
+        </div>
+
         <!-- Contact Sheet Filter & Instruction Meta Bar -->
-        <div class="contact-sheet-meta">
+        <div class="contact-sheet-meta reveal-item">
           <div class="contact-sheet-filter-group" role="tablist" aria-label="Filter contact sheet by category">
             <button class="sheet-filter-btn active" type="button" data-filter="all" role="tab" aria-selected="true">All Cuts</button>
             <button class="sheet-filter-btn" type="button" data-filter="social" role="tab" aria-selected="false">Short-Form &amp; Reels</button>
@@ -258,20 +294,22 @@
         <div class="contact-sheet-grid">
           
           <!-- Card 1: Short-Form Social Reel -->
-          <!-- EDITABLE: Replace data-video-url with your YouTube/Vimeo embed or MP4 -->
-          <article class="project-card" 
+          <!-- EDITABLE: Replace data-video-url with your YouTube/Vimeo embed or MP4, and optional data-preview-video -->
+          <article class="project-card reveal-item" 
                    data-category="social"
                    data-id="card-1"
                    data-title="[Placeholder] Dynamic Short-Form Hook &amp; Reel"
                    data-category-label="Short-Form"
                    data-notes="Fast cuts, kinetic captions, and audio beat-matching designed for viewer retention."
-                   data-video-url="">
+                   data-video-url=""
+                   tabindex="0">
             <div class="card-sheet-header">
               <span class="card-frame-number">FRAME #01</span>
               <span>FORMAT: 9:16 VERTICAL</span>
             </div>
             <div class="card-media-stage" data-video-trigger>
               <img src="assets/placeholder-social.svg" alt="Social Reel Edit Thumbnail" loading="lazy">
+              <video class="card-hover-video" muted loop playsinline preload="none" aria-hidden="true"></video>
               <span class="media-corner-cue">00:30</span>
               <div class="card-play-overlay">
                 <div class="play-action-disc" aria-hidden="true">
@@ -301,19 +339,21 @@
 
           <!-- Card 2: Travel & Rhythm Montage -->
           <!-- EDITABLE: Replace data-video-url -->
-          <article class="project-card" 
+          <article class="project-card reveal-item" 
                    data-category="vlog"
                    data-id="card-2"
                    data-title="[Placeholder] Travel &amp; Rhythm Montage"
                    data-category-label="Vlog / Montage"
                    data-notes="Beat-synchronized transitions, speed ramps, and atmospheric ambient audio."
-                   data-video-url="">
+                   data-video-url=""
+                   tabindex="0">
             <div class="card-sheet-header">
               <span class="card-frame-number">FRAME #02</span>
               <span>FORMAT: 16:9 WIDESCREEN</span>
             </div>
             <div class="card-media-stage" data-video-trigger>
               <img src="assets/placeholder-travel.svg" alt="Travel Rhythm Montage Thumbnail" loading="lazy">
+              <video class="card-hover-video" muted loop playsinline preload="none" aria-hidden="true"></video>
               <span class="media-corner-cue">01:15</span>
               <div class="card-play-overlay">
                 <div class="play-action-disc" aria-hidden="true">
@@ -343,19 +383,21 @@
 
           <!-- Card 3: Creator Vlog & Storytelling -->
           <!-- EDITABLE: Replace data-video-url -->
-          <article class="project-card" 
+          <article class="project-card reveal-item" 
                    data-category="vlog"
                    data-id="card-3"
                    data-title="[Placeholder] Creator Vlog &amp; Narrative Flow"
                    data-category-label="YouTube / Vlog"
                    data-notes="A-roll dialog trimming, B-roll layering, and background music leveling."
-                   data-video-url="">
+                   data-video-url=""
+                   tabindex="0">
             <div class="card-sheet-header">
               <span class="card-frame-number">FRAME #03</span>
               <span>FORMAT: 16:9 STANDARD</span>
             </div>
             <div class="card-media-stage" data-video-trigger>
               <img src="assets/placeholder-vlog.svg" alt="YouTube Vlog Edit Thumbnail" loading="lazy">
+              <video class="card-hover-video" muted loop playsinline preload="none" aria-hidden="true"></video>
               <span class="media-corner-cue">04:15</span>
               <div class="card-play-overlay">
                 <div class="play-action-disc" aria-hidden="true">
@@ -385,19 +427,21 @@
 
           <!-- Card 4: Event & Celebration Recap -->
           <!-- EDITABLE: Replace data-video-url -->
-          <article class="project-card" 
+          <article class="project-card reveal-item" 
                    data-category="event"
                    data-id="card-4"
                    data-title="[Placeholder] Event Recap &amp; Highlight Montage"
                    data-category-label="Event"
                    data-notes="Energy build-up, emotional speech moments, and crescendo sync."
-                   data-video-url="">
+                   data-video-url=""
+                   tabindex="0">
             <div class="card-sheet-header">
               <span class="card-frame-number">FRAME #04</span>
               <span>FORMAT: 16:9 WIDESCREEN</span>
             </div>
             <div class="card-media-stage" data-video-trigger>
               <img src="assets/placeholder-event.svg" alt="Event Recap Thumbnail" loading="lazy">
+              <video class="card-hover-video" muted loop playsinline preload="none" aria-hidden="true"></video>
               <span class="media-corner-cue">02:20</span>
               <div class="card-play-overlay">
                 <div class="play-action-disc" aria-hidden="true">
@@ -427,19 +471,21 @@
 
           <!-- Card 5: Talking Head / Educational Clean-Up -->
           <!-- EDITABLE: Replace data-video-url -->
-          <article class="project-card" 
+          <article class="project-card reveal-item" 
                    data-category="vlog social"
                    data-id="card-5"
                    data-title="[Placeholder] Educational &amp; Interview Clean-Up"
                    data-category-label="Tutorial"
                    data-notes="Punch-in jump cut masking, filler word trimming, and clean lower-thirds."
-                   data-video-url="">
+                   data-video-url=""
+                   tabindex="0">
             <div class="card-sheet-header">
               <span class="card-frame-number">FRAME #05</span>
               <span>FORMAT: 16:9 STANDARD</span>
             </div>
             <div class="card-media-stage" data-video-trigger>
               <img src="assets/placeholder-talking-head.svg" alt="Talking Head Thumbnail" loading="lazy">
+              <video class="card-hover-video" muted loop playsinline preload="none" aria-hidden="true"></video>
               <span class="media-corner-cue">05:40</span>
               <div class="card-play-overlay">
                 <div class="play-action-disc" aria-hidden="true">
@@ -469,19 +515,21 @@
 
           <!-- Card 6: Promo Teaser -->
           <!-- EDITABLE: Replace data-video-url -->
-          <article class="project-card" 
+          <article class="project-card reveal-item" 
                    data-category="social event"
                    data-id="card-6"
                    data-title="[Placeholder] 15-Second Brand / Teaser Promo"
                    data-category-label="Social Promo"
                    data-notes="Punchy short promo with crisp typography and logo sting."
-                   data-video-url="">
+                   data-video-url=""
+                   tabindex="0">
             <div class="card-sheet-header">
               <span class="card-frame-number">FRAME #06</span>
               <span>FORMAT: 9:16 VERTICAL</span>
             </div>
             <div class="card-media-stage" data-video-trigger>
               <img src="assets/placeholder-social.svg" alt="Social Promo Thumbnail" loading="lazy">
+              <video class="card-hover-video" muted loop playsinline preload="none" aria-hidden="true"></video>
               <span class="media-corner-cue">00:15</span>
               <div class="card-play-overlay">
                 <div class="play-action-disc" aria-hidden="true">
@@ -518,7 +566,7 @@
          ====================================================================== -->
     <section class="section" id="what-i-edit">
       <div class="container">
-        <div class="journal-header centered">
+        <div class="journal-header centered reveal-item">
           <span class="journal-slug">Services // Scope</span>
           <h2 class="journal-title">What I Edit</h2>
           <p class="journal-subtitle">
@@ -529,7 +577,7 @@
         <div class="services-editorial-grid">
           
           <!-- Category 1: Short-Form Social Videos -->
-          <div class="service-journal-card">
+          <div class="service-journal-card reveal-item">
             <span class="service-number">01 // REELS &amp; SHORTS</span>
             <h3 class="service-journal-title">Short-Form Social Videos</h3>
             <p class="service-journal-desc">
@@ -543,7 +591,7 @@
           </div>
 
           <!-- Category 2: Creator Clips & YouTube Content -->
-          <div class="service-journal-card">
+          <div class="service-journal-card reveal-item">
             <span class="service-number">02 // CREATOR CLIPS</span>
             <h3 class="service-journal-title">Creator Clips &amp; YouTube</h3>
             <p class="service-journal-desc">
@@ -557,7 +605,7 @@
           </div>
 
           <!-- Category 3: Vlogs & Storytelling -->
-          <div class="service-journal-card">
+          <div class="service-journal-card reveal-item">
             <span class="service-number">03 // VLOGS &amp; TRAVEL</span>
             <h3 class="service-journal-title">Vlogs &amp; Storytelling</h3>
             <p class="service-journal-desc">
@@ -571,7 +619,7 @@
           </div>
 
           <!-- Category 4: Event Highlights -->
-          <div class="service-journal-card">
+          <div class="service-journal-card reveal-item">
             <span class="service-number">04 // EVENTS &amp; RECAPS</span>
             <h3 class="service-journal-title">Event Highlights &amp; Promos</h3>
             <p class="service-journal-desc">
@@ -595,7 +643,7 @@
       <div class="container slate-container">
         
         <!-- Styled Production Slate / Clapperboard Card -->
-        <div class="production-slate-card">
+        <div class="production-slate-card reveal-item">
           
           <!-- Clapperboard Chevron Sticks -->
           <div class="clapperboard-sticks" aria-hidden="true">
@@ -692,7 +740,7 @@
     <section class="section" id="about">
       <div class="container">
         
-        <div class="journal-header">
+        <div class="journal-header reveal-item">
           <span class="journal-slug">Director’s Log // About</span>
           <h2 class="journal-title">Building the Craft</h2>
         </div>
@@ -700,7 +748,7 @@
         <div class="about-journal-grid">
           
           <!-- Story Narrative -->
-          <div class="about-journal-story">
+          <div class="about-journal-story reveal-item">
             <blockquote class="about-quote-block">
               “I’m building my craft one thoughtful cut at a time.”
             </blockquote>
@@ -723,7 +771,7 @@
           </div>
 
           <!-- Editorial Notebook & Software Strip -->
-          <div class="about-journal-notebook">
+          <div class="about-journal-notebook reveal-item">
             <div class="notebook-header">
               <span class="notebook-title">Production Tools</span>
               <span class="notebook-stamp">NLE &amp; AUDIO SUITE</span>
@@ -788,7 +836,7 @@
     <section class="section section-alt" id="contact">
       <div class="container">
         
-        <div class="journal-header centered">
+        <div class="journal-header centered reveal-item">
           <span class="journal-slug">Call Sheet // Contact</span>
           <!-- Heading as requested -->
           <h2 class="journal-title">Every great video starts with a story. What’s yours?</h2>
@@ -800,7 +848,7 @@
         <div class="contact-grid">
           
           <!-- Contact Details & Social Connect -->
-          <div class="contact-story">
+          <div class="contact-story reveal-item">
             <p class="contact-lead-text">
               I reply promptly to all project inquiries. If you have a link to your footage or reference videos you like, feel free to include them.
             </p>
@@ -899,7 +947,7 @@
           </div>
 
           <!-- Interactive Contact Form Slate -->
-          <div class="contact-form-slate">
+          <div class="contact-form-slate reveal-item">
             <form id="contactForm" class="contact-form">
               <div id="formAlert" class="form-alert" role="status" aria-live="polite"></div>
 

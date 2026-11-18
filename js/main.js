@@ -8,6 +8,10 @@ document.addEventListener('DOMContentLoaded', () => {
   initHeaderScroll();
   initMobileNav();
   initPortraitParallax();
+  initScrollReveals();
+  initSelectedWorkPlayhead();
+  initCardVideoHover();
+  initHeroScrollCue();
   initContactSheetFilters();
   initVideoModal();
   initEmailCopy();
@@ -113,25 +117,33 @@ function initMobileNav() {
 }
 
 /**
- * 4. Subtle Portrait Movement on Scroll (Respects Reduced Motion)
+ * 4. Subtle Portrait Movement on Scroll (Slow zoom & gentle parallax, zero layout shift)
  */
 function initPortraitParallax() {
   const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (prefersReduced) return;
 
   const portrait = document.getElementById('heroPortraitImg');
-  if (!portrait) return;
+  const heroSection = document.getElementById('hero');
+  if (!portrait || !heroSection) return;
 
   let ticking = false;
 
   const onScroll = () => {
     if (!ticking) {
       window.requestAnimationFrame(() => {
-        const scrollY = window.scrollY;
-        if (scrollY < window.innerHeight) {
-          // Very subtle translateY shift of at most 12px
-          const shift = (scrollY * 0.04).toFixed(1);
-          portrait.style.transform = `scale(1.02) translateY(${shift}px)`;
+        const heroRect = heroSection.getBoundingClientRect();
+        // Check if hero is within or partially visible in viewport
+        if (heroRect.bottom > 0 && heroRect.top < window.innerHeight) {
+          const scrollDistance = Math.max(-heroRect.top, 0);
+          const maxScroll = heroSection.offsetHeight || window.innerHeight;
+          const progress = Math.min(scrollDistance / maxScroll, 1);
+
+          // Gentle slow zoom (1.000 to 1.055) and subtle vertical parallax shift (up to 14px)
+          const scale = (1 + progress * 0.055).toFixed(3);
+          const translateY = (progress * 14).toFixed(1);
+
+          portrait.style.transform = `translate3d(0, ${translateY}px, 0) scale(${scale})`;
         }
         ticking = false;
       });
@@ -140,6 +152,7 @@ function initPortraitParallax() {
   };
 
   window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
 }
 
 /**
@@ -400,4 +413,157 @@ function escapeHtml(string) {
     .replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;')
     .replace(/'/g, '&#039;');
+}
+
+/**
+ * 10. Accessible Scroll Reveals with IntersectionObserver
+ * Triggered once per element. Content remains visible if IntersectionObserver or JS is unavailable.
+ */
+function initScrollReveals() {
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (prefersReduced || !('IntersectionObserver' in window)) {
+    // Unsupported or reduced motion requested: content remains fully visible by default
+    return;
+  }
+
+  document.documentElement.classList.add('js-reveal-active');
+  const revealItems = document.querySelectorAll('.reveal-item');
+
+  const observer = new IntersectionObserver((entries, obs) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is-revealed');
+        obs.unobserve(entry.target); // Trigger each reveal once
+      }
+    });
+  }, {
+    rootMargin: '0px 0px -40px 0px',
+    threshold: 0.08
+  });
+
+  revealItems.forEach(el => observer.observe(el));
+}
+
+/**
+ * 11. Section Editing Playhead / Timeline Detail
+ * Thin animated playhead that tracks progress specifically as visitor scrolls through #selected-work
+ */
+function initSelectedWorkPlayhead() {
+  const section = document.getElementById('selected-work');
+  const progressBar = document.getElementById('workTimelineProgressBar');
+  const needle = document.getElementById('workPlayheadNeedle');
+  const timecodeEl = document.getElementById('workPlayheadTimecode');
+
+  if (!section || !progressBar || !needle) return;
+
+  const updatePlayhead = () => {
+    const rect = section.getBoundingClientRect();
+    const windowHeight = window.innerHeight;
+
+    // Track scroll through the selected work section
+    const startOffset = windowHeight * 0.75;
+    const totalDistance = rect.height + startOffset - windowHeight * 0.25;
+    const currentDistance = startOffset - rect.top;
+
+    const progressRatio = totalDistance > 0 ? Math.min(Math.max(currentDistance / totalDistance, 0), 1) : 0;
+    const progressPercent = (progressRatio * 100).toFixed(2);
+
+    progressBar.style.width = `${progressPercent}%`;
+    needle.style.left = `${progressPercent}%`;
+
+    if (timecodeEl) {
+      // 5-minute reel @ 24fps
+      const totalFrames = Math.floor(progressRatio * 300 * 24);
+      const frames = String(totalFrames % 24).padStart(2, '0');
+      const totalSeconds = Math.floor(totalFrames / 24);
+      const seconds = String(totalSeconds % 60).padStart(2, '0');
+      const minutes = String(Math.floor(totalSeconds / 60)).padStart(2, '0');
+      timecodeEl.textContent = `00:${minutes}:${seconds}:${frames}`;
+    }
+  };
+
+  window.addEventListener('scroll', updatePlayhead, { passive: true });
+  window.addEventListener('resize', updatePlayhead, { passive: true });
+  updatePlayhead();
+}
+
+/**
+ * 12. Project Card Video Hover & Keyboard Focus Interactions
+ * Plays muted video preview on hover / focus-within; pauses and rewinds on leave.
+ * Safe on touch screens and never autoplays audio.
+ */
+function initCardVideoHover() {
+  const cards = document.querySelectorAll('.project-card');
+  const canHover = window.matchMedia('(hover: hover)').matches;
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  cards.forEach(card => {
+    const video = card.querySelector('video.card-hover-video');
+    if (!video) return;
+
+    // Strict audio rule: Audio MUST NOT autoplay
+    video.muted = true;
+    video.setAttribute('muted', '');
+
+    // Allow touch screens to navigate and tap without hover conflicts
+    if (!canHover || prefersReduced) return;
+
+    let playPromise = null;
+
+    const startVideo = () => {
+      // Check if video has a valid source or needs attribute source
+      if (!video.src && !video.querySelector('source[src]:not([src=""])')) {
+        const previewUrl = card.getAttribute('data-preview-video') ||
+          (card.getAttribute('data-video-url')?.endsWith('.mp4') ? card.getAttribute('data-video-url') : null);
+        if (previewUrl) {
+          video.src = previewUrl;
+        } else {
+          return;
+        }
+      }
+
+      video.muted = true;
+      card.classList.add('video-preview-active');
+      playPromise = video.play();
+      if (playPromise !== undefined) {
+        playPromise.catch(() => {
+          // Handled gracefully if browser blocks or video missing
+        });
+      }
+    };
+
+    const stopVideo = () => {
+      card.classList.remove('video-preview-active');
+      if (playPromise !== undefined) {
+        playPromise.then(() => {
+          video.pause();
+          try { video.currentTime = 0; } catch (e) {}
+        }).catch(() => {
+          video.pause();
+        });
+      } else {
+        video.pause();
+        try { video.currentTime = 0; } catch (e) {}
+      }
+    };
+
+    card.addEventListener('mouseenter', startVideo);
+    card.addEventListener('mouseleave', stopVideo);
+    card.addEventListener('focusin', startVideo);
+    card.addEventListener('focusout', stopVideo);
+  });
+}
+
+/**
+ * 13. Hero Scroll Cue Click Handler
+ */
+function initHeroScrollCue() {
+  const cue = document.getElementById('heroScrollCue');
+  const target = document.getElementById('selected-work');
+  if (!cue || !target) return;
+
+  cue.addEventListener('click', (e) => {
+    e.preventDefault();
+    target.scrollIntoView({ behavior: 'smooth' });
+  });
 }
