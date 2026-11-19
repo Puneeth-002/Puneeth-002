@@ -671,60 +671,52 @@ select:focus-visible {
   animation: heroFadeUp 0.42s cubic-bezier(0.16, 1, 0.3, 1) 0.64s forwards;
 }
 
-/* Scroll To Explore Cue (Subtle Looping Animation) */
-.scroll-cue {
+/* Minimalist Cinematic Scroll Indicator (No clumsy arrows or boxes) */
+.cinema-scroll-cue {
   display: inline-flex;
   align-items: center;
-  gap: 0.65rem;
+  gap: 0.85rem;
   font-family: var(--font-mono);
   font-size: 0.72rem;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--text-dim);
   opacity: 0;
-  animation: heroFadeUp 0.42s cubic-bezier(0.16, 1, 0.3, 1) 0.74s forwards, scrollCueBounce 2.4s infinite ease-in-out 1.25s;
+  animation: heroFadeUp 0.42s cubic-bezier(0.16, 1, 0.3, 1) 0.74s forwards;
   cursor: pointer;
   transition: color var(--trans-instant);
 }
 
-.scroll-cue:hover {
+.cinema-scroll-cue:hover {
   color: var(--accent);
 }
 
-@keyframes scrollCueBounce {
-  0%, 100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(5px);
-  }
-}
-
-.scroll-playhead-icon {
-  width: 14px;
-  height: 18px;
-  border: 1px solid currentColor;
-  border-radius: 2px;
-  position: relative;
-  display: flex;
-  justify-content: center;
-  padding-top: 2px;
-  transition: border-color var(--trans-instant);
-}
-
-.scroll-playhead-icon::after {
-  content: "";
-  width: 2px;
-  height: 5px;
+.scroll-film-line {
+  width: 28px;
+  height: 1px;
   background-color: var(--accent);
-  border-radius: 1px;
-  animation: playheadScrub 1.8s infinite ease-in-out;
+  position: relative;
+  overflow: hidden;
 }
 
-@keyframes playheadScrub {
-  0% { transform: translateY(0); opacity: 1; }
-  70% { transform: translateY(6px); opacity: 0.2; }
-  100% { transform: translateY(0); opacity: 1; }
+.scroll-film-line::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, #fff, transparent);
+  animation: filmLineScan 2.4s infinite ease-in-out;
+}
+
+@keyframes filmLineScan {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+.scroll-cue-text {
+  font-weight: 600;
 }
 
 /* --------------------------------------------------------------------------
@@ -1178,22 +1170,56 @@ select:focus-visible {
 }
 
 .play-action-disc {
-  width: 50px;
-  height: 50px;
+  width: 52px;
+  height: 52px;
   border-radius: 50%;
-  background-color: rgba(14, 16, 21, 0.88);
+  background-color: rgba(14, 16, 21, 0.92);
   border: 1px solid var(--accent);
   color: var(--accent);
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: transform var(--trans-instant), background-color var(--trans-instant), color var(--trans-instant);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.8), 0 0 16px rgba(224, 109, 52, 0.25);
+  transition: transform var(--trans-instant), background-color var(--trans-instant), color var(--trans-instant), border-color var(--trans-instant);
+}
+
+.play-aperture-reticle {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 2px solid currentColor;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform var(--trans-instant);
+}
+
+.play-aperture-reticle::after {
+  content: "";
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background-color: currentColor;
 }
 
 .project-card:hover .play-action-disc {
-  transform: scale(1.15);
+  transform: scale(1.18);
   background-color: var(--accent);
   color: #090a0d;
+  box-shadow: 0 6px 26px rgba(224, 109, 52, 0.5);
+}
+
+.project-card:hover .play-aperture-reticle {
+  transform: rotate(45deg);
+}
+
+.preview-film-tag {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  color: var(--accent);
+  opacity: 0.85;
 }
 
 /* Bottom corner cues inside thumbnail */
@@ -2196,7 +2222,7 @@ select:focus-visible {
   .hero-story .hero-tagline,
   .hero-story .hero-bio-concise,
   .hero-story .hero-cta-group,
-  .hero-story .scroll-cue {
+  .hero-story .cinema-scroll-cue {
     opacity: 1 !important;
     transform: none !important;
     animation: none !important;
@@ -2207,13 +2233,13 @@ select:focus-visible {
     transform: none !important;
     transition: none !important;
   }
-  .rec-dot {
+  .rec-dot, .cinema-rec-dot {
     animation: none !important;
   }
-  .scroll-cue {
+  .cinema-scroll-cue {
     animation: none !important;
   }
-  .scroll-playhead-icon::after {
+  .scroll-film-line::after {
     animation: none !important;
   }
   .portrait-photo {
@@ -2227,75 +2253,104 @@ select:focus-visible {
 }
 
 /* --------------------------------------------------------------------------
-   SWARM CURSORS REBUILD BUTTONS & BADGES
+   CINEMATIC TIMELINE REBUILD BUTTONS & BADGES
    -------------------------------------------------------------------------- */
 .btn-swarm {
-  background: linear-gradient(135deg, rgba(224, 109, 52, 0.16) 0%, rgba(162, 89, 255, 0.16) 100%);
+  background: rgba(18, 22, 30, 0.85);
   color: var(--text-pure);
-  border: 1px solid rgba(224, 109, 52, 0.45);
+  border: 1px solid rgba(224, 109, 52, 0.4);
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.45rem 0.85rem;
-  font-size: 0.82rem;
-  font-weight: 600;
+  gap: 0.55rem;
+  padding: 0.45rem 0.95rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
   border-radius: var(--radius-xs);
   transition: all var(--trans-instant);
-  box-shadow: 0 0 14px rgba(224, 109, 52, 0.15);
+  box-shadow: 0 0 16px rgba(224, 109, 52, 0.15);
 }
 
 .btn-swarm:hover {
-  background: linear-gradient(135deg, rgba(224, 109, 52, 0.28) 0%, rgba(162, 89, 255, 0.28) 100%);
+  background: rgba(26, 32, 44, 0.95);
   border-color: var(--accent);
-  box-shadow: 0 0 20px rgba(224, 109, 52, 0.35);
+  box-shadow: 0 0 24px rgba(224, 109, 52, 0.4);
   transform: translateY(-1px);
+}
+
+.cinema-rec-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: var(--rec-red);
+  box-shadow: 0 0 8px var(--rec-red);
+  animation: recBlink 1.6s infinite ease-in-out;
+  display: inline-block;
 }
 
 .shortcut-pill {
   font-family: var(--font-mono);
   font-size: 0.65rem;
-  padding: 2px 5px;
-  background-color: rgba(0, 0, 0, 0.45);
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 2px 6px;
+  background-color: rgba(0, 0, 0, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.18);
   border-radius: 3px;
-  color: var(--text-warm);
+  color: var(--accent);
+  letter-spacing: 0.04em;
   line-height: 1;
 }
 
 .btn-swarm-hero {
-  background: linear-gradient(135deg, rgba(224, 109, 52, 0.18) 0%, rgba(13, 153, 255, 0.15) 100%);
+  background: rgba(22, 26, 36, 0.9);
   color: var(--text-pure);
-  border: 1px solid rgba(224, 109, 52, 0.5);
+  border: 1px solid rgba(224, 109, 52, 0.55);
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.6rem;
+  gap: 0.75rem;
   padding: 0.85rem 1.65rem;
   border-radius: var(--radius-xs);
-  font-size: 0.92rem;
-  font-weight: 600;
-  letter-spacing: 0.02em;
+  font-size: 0.88rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
   transition: all var(--trans-instant);
-  box-shadow: 0 4px 18px rgba(224, 109, 52, 0.2);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6), 0 0 16px rgba(224, 109, 52, 0.2);
   white-space: nowrap;
   cursor: pointer;
 }
 
 .btn-swarm-hero:hover {
-  background: linear-gradient(135deg, rgba(224, 109, 52, 0.3) 0%, rgba(13, 153, 255, 0.25) 100%);
+  background: rgba(30, 36, 50, 0.95);
   border-color: var(--accent-hover);
-  box-shadow: 0 6px 24px rgba(224, 109, 52, 0.38);
+  box-shadow: 0 6px 26px rgba(224, 109, 52, 0.45);
   transform: translateY(-2px);
+}
+
+.btn-cinema-main {
+  background: linear-gradient(135deg, #e06d34 0%, #f17f46 100%);
+  color: #0a0c10;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  box-shadow: 0 4px 20px rgba(224, 109, 52, 0.35);
+}
+
+.btn-reel-bullet {
+  color: #0a0c10;
+  font-size: 0.7rem;
+  line-height: 1;
 }
 
 .hero-shortcut-badge {
   font-family: var(--font-mono);
   font-size: 0.7rem;
-  padding: 2px 6px;
+  padding: 2px 7px;
   background-color: rgba(0, 0, 0, 0.5);
   border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 4px;
-  color: var(--text-warm);
+  border-radius: 3px;
+  color: var(--accent);
 }
 
 .mobile-swarm-btn {
@@ -2312,7 +2367,14 @@ select:focus-visible {
 
 .mobile-swarm-btn:hover {
   color: var(--accent-hover);
-  background: linear-gradient(90deg, rgba(224, 109, 52, 0.2) 0%, transparent 100%);
+  background: linear-gradient(90deg, rgba(224, 109, 52, 0.22) 0%, transparent 100%);
+}
+
+.mobile-track-num {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--accent);
+  letter-spacing: 0.08em;
 }
 
 .mobile-shortcut-badge {
@@ -2322,17 +2384,14 @@ select:focus-visible {
   background-color: rgba(255, 255, 255, 0.08);
   border: 1px solid rgba(255, 255, 255, 0.15);
   border-radius: 4px;
-  color: var(--text-dim);
+  color: var(--accent);
 }
 
-.swarm-sparkle {
-  display: inline-block;
-  animation: sparkleTwinkle 2.2s infinite ease-in-out;
-}
-
-@keyframes sparkleTwinkle {
-  0%, 100% { transform: scale(1) rotate(0deg); opacity: 0.85; }
-  50% { transform: scale(1.2) rotate(12deg); opacity: 1; }
+.btn-slate-tag, .back-to-top-indicator {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.05em;
+  color: var(--accent);
 }
 
 @media (max-width: 600px) {
@@ -2341,6 +2400,6 @@ select:focus-visible {
   }
   #navSwarmBtn {
     padding: 0.4rem 0.65rem;
-    font-size: 0.76rem;
+    font-size: 0.75rem;
   }
 }

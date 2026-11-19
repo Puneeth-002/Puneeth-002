@@ -6,12 +6,12 @@ An expressive, cinematic portfolio website for freelance video editor **Puneeth 
 
 ## 🎬 Design Concept & Highlights
 
-- **✨ Swarm Cursors Live Rebuild Integration**:
-  - Integrated directly into the website from [Dhvanil Patel's Swarm Cursors](https://github.com/DhvanilPatel/swarm-cursors) (inspired by [Joel Califa's Swarm](https://joelcalifa.com)).
-  - Click **✨ Swarm Rebuild** in the navigation, click the Hero CTA button, or press **`Alt+Shift+S`** anywhere on the page.
-  - The entire page dissolves into a blank canvas while a multiplayer swarm of colored cursors (`Ada`, `Linus`, `Grace`, `Alan`, etc.) dynamically reconstructs Puneeth's portfolio live in front of you.
-  - Features real-time crosshair-drawn layout boxes, kinetic text typing, pen-tool lines, snap-to ruler guides, and live synthesized sound effects via Web Audio API.
-  - Includes full toolbar controls: speed adjustment (1× / 2× / 3×), Tour mode (auto-scroll), live sound toggle (`M`), toolbar toggle (`H`), and clean exit (`Esc` or **Go Live**).
+- **◈ Cinematic Timeline Rebuild (Post-Production Crew)**:
+  - Adapted from [Dhvanil Patel's Swarm Cursors](https://github.com/DhvanilPatel/swarm-cursors) (inspired by [Joel Califa's Swarm](https://joelcalifa.com)).
+  - Click **Rebuild Timeline** in the navigation, click the Hero CTA button, or press **`Alt+Shift+S`** anywhere on the page.
+  - The entire page dissolves into a blank canvas while an elite post-production crew (`LEAD EDITOR`, `DIRECTOR`, `COLORIST`, `DOP`, `SOUND DES.`, `VFX ARTIST`) with razor-sharp camera viewfinder crosshairs reconstructs Puneeth's portfolio live in front of you.
+  - Features real-time layout box generation, kinetic text typing, pen-tool lines, and snap-to ruler guides in a clean, silent, film-grade presentation (all disruptive music removed).
+  - Includes toolbar controls: speed adjustment (1× / 2× / 3×), Tour mode (auto-scroll), toolbar toggle (`H`), and clean exit (`Esc` or **Go Live**).
   - Also supports auto-start on load via URL parameter `index.html?swarm=1` or hash `#swarm`.
 - **Paused Film Frame Hero**: The opening features Puneeth's actual editorial portrait framed like a paused director's monitor frame with corner crop marks (`⌜ ⌝ ⌞ ⌟`), `REC ●` blinking telemetry, 2.39:1 Cinemascope indicators, and the personal tagline: *“You bring the footage. Let’s find the story in it.”*
 - **Persistent Editing Playhead (Timeline Scrubber)**: A slim timeline scrubber at the top of the browser that tracks your scroll position in real time with a moving playhead marker and a live timecode readout (`00:00:00:00` to `00:05:00:00`).

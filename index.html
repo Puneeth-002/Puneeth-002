@@ -65,10 +65,10 @@
 
       <!-- Nav Actions -->
       <div class="nav-right-actions">
-        <button type="button" class="btn btn-swarm btn-sm" id="navSwarmBtn" title="Watch animated cursors rebuild this page live (Alt+Shift+S)">
-          <span class="swarm-sparkle" aria-hidden="true">✨</span>
-          <span>Swarm Rebuild</span>
-          <kbd class="shortcut-pill">⌥⇧S</kbd>
+        <button type="button" class="btn btn-swarm btn-sm" id="navSwarmBtn" title="Rebuild page live with post-production team (Alt+Shift+S)">
+          <span class="cinema-rec-dot"></span>
+          <span>Rebuild Timeline</span>
+          <span class="shortcut-pill">Alt+Shift+S</span>
         </button>
         <a href="#contact" class="btn btn-secondary btn-sm">Start Project</a>
         <button class="nav-toggle" type="button" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="mobileNav">
@@ -82,32 +82,32 @@
     <!-- Mobile Navigation Drawer -->
     <nav class="mobile-nav" id="mobileNav" aria-hidden="true" aria-label="Mobile Navigation">
       <a href="#hero" class="mobile-nav-link">
-        Home
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+        <span>Home</span>
+        <span class="mobile-track-num">01</span>
       </a>
       <a href="#selected-work" class="mobile-nav-link">
-        Selected Work
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+        <span>Selected Work</span>
+        <span class="mobile-track-num">02</span>
       </a>
       <a href="#what-i-edit" class="mobile-nav-link">
-        What I Edit
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+        <span>What I Edit</span>
+        <span class="mobile-track-num">03</span>
       </a>
       <a href="#first-collaborations" class="mobile-nav-link">
-        First Collaborations
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+        <span>First Collaborations</span>
+        <span class="mobile-track-num">04</span>
       </a>
       <a href="#about" class="mobile-nav-link">
-        About
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+        <span>About</span>
+        <span class="mobile-track-num">05</span>
       </a>
       <a href="#contact" class="mobile-nav-link">
-        Contact
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+        <span>Contact</span>
+        <span class="mobile-track-num">06</span>
       </a>
       <button type="button" class="mobile-nav-link mobile-swarm-btn" id="mobileSwarmBtn">
-        <span>✨ Rebuild with Swarm Cursors</span>
-        <span class="mobile-shortcut-badge">Alt+Shift+S</span>
+        <span>Rebuild Timeline</span>
+        <span class="mobile-shortcut-badge">[ Alt+Shift+S ]</span>
       </button>
     </nav>
   </header>
@@ -153,27 +153,24 @@
 
             <!-- Hero Action Buttons -->
             <div class="hero-cta-group">
-              <a href="#selected-work" class="btn btn-primary">
-                <!-- Play Icon -->
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                  <polygon points="5 3 19 12 5 21 5 3"></polygon>
-                </svg>
-                Watch My Work
+              <a href="#selected-work" class="btn btn-primary btn-cinema-main">
+                <span class="btn-reel-bullet" aria-hidden="true">●</span>
+                <span>Watch Selected Work</span>
               </a>
-              <button type="button" class="btn btn-swarm-hero" id="heroSwarmBtn" title="Wipe page and let cursors rebuild it live! (Alt+Shift+S)">
-                <span class="swarm-sparkle" aria-hidden="true">✨</span>
-                <span>Swarm Rebuild</span>
-                <span class="hero-shortcut-badge">⌥⇧S</span>
+              <button type="button" class="btn btn-swarm-hero" id="heroSwarmBtn" title="Rebuild page live with post-production team (Alt+Shift+S)">
+                <span class="cinema-rec-dot" aria-hidden="true"></span>
+                <span>Rebuild Timeline</span>
+                <span class="hero-shortcut-badge">Alt+Shift+S</span>
               </button>
               <a href="#first-collaborations" class="btn btn-secondary">
                 Introductory Offer
               </a>
             </div>
 
-            <!-- Scroll To Explore Cue (Animated Looping Movement) -->
-            <a href="#selected-work" class="scroll-cue" id="heroScrollCue" aria-label="Scroll to explore the cut sheet">
-              <div class="scroll-playhead-icon" aria-hidden="true"></div>
-              <span>Scroll to explore the cut sheet</span>
+            <!-- Scroll To Explore Cue (Minimalist Cinematic Scrubber Line) -->
+            <a href="#selected-work" class="cinema-scroll-cue" id="heroScrollCue" aria-label="Scroll to explore selected work">
+              <span class="scroll-film-line" aria-hidden="true"></span>
+              <span class="scroll-cue-text">SCROLL // SEQUENCE 01</span>
             </a>
           </div>
 
@@ -196,9 +193,9 @@
 
               <!-- Monitor Top Telemetry -->
               <div class="monitor-top-telemetry">
-                <span class="status-active">MONITOR 01 // 24 FPS</span>
+                <span class="status-active">ARRI LF // 24.000 FPS</span>
                 <span>2.39:1 CINEMASCOPE</span>
-                <span>ISO 800</span>
+                <span>EI 800 // 5600K</span>
               </div>
 
               <!-- Portrait Photo Media Wrap -->
@@ -222,9 +219,9 @@
 
               <!-- Monitor Bottom Telemetry -->
               <div class="monitor-bottom-telemetry">
-                <span>SHUTTER 1/48</span>
-                <span style="color: var(--accent);">● PAUSED FRAME</span>
-                <span>CH1/CH2 STEREO</span>
+                <span>SHUTTER 180.0°</span>
+                <span style="color: var(--accent);">● PAUSED MONITOR FEED</span>
+                <span>LOGC3 // REC.709</span>
               </div>
 
             </div>
@@ -327,7 +324,7 @@
               <span class="media-corner-cue">00:30</span>
               <div class="card-play-overlay">
                 <div class="play-action-disc" aria-hidden="true">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                  <span class="play-aperture-reticle"></span>
                 </div>
               </div>
             </div>
@@ -344,8 +341,8 @@
               <div class="card-sheet-footer">
                 <span style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-dim);">CUT 01 / TAKE 03</span>
                 <button type="button" class="card-preview-link" data-video-trigger>
-                  Preview Cut
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                  <span>Preview Cut</span>
+                  <span class="preview-film-tag">[ 24 FPS ]</span>
                 </button>
               </div>
             </div>
@@ -371,7 +368,7 @@
               <span class="media-corner-cue">01:15</span>
               <div class="card-play-overlay">
                 <div class="play-action-disc" aria-hidden="true">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                  <span class="play-aperture-reticle"></span>
                 </div>
               </div>
             </div>
@@ -388,8 +385,8 @@
               <div class="card-sheet-footer">
                 <span style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-dim);">CUT 02 / TAKE 01</span>
                 <button type="button" class="card-preview-link" data-video-trigger>
-                  Preview Cut
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                  <span>Preview Cut</span>
+                  <span class="preview-film-tag">[ 24 FPS ]</span>
                 </button>
               </div>
             </div>
@@ -415,7 +412,7 @@
               <span class="media-corner-cue">04:15</span>
               <div class="card-play-overlay">
                 <div class="play-action-disc" aria-hidden="true">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                  <span class="play-aperture-reticle"></span>
                 </div>
               </div>
             </div>
@@ -432,8 +429,8 @@
               <div class="card-sheet-footer">
                 <span style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-dim);">CUT 03 / TAKE 04</span>
                 <button type="button" class="card-preview-link" data-video-trigger>
-                  Preview Cut
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                  <span>Preview Cut</span>
+                  <span class="preview-film-tag">[ 24 FPS ]</span>
                 </button>
               </div>
             </div>
@@ -459,7 +456,7 @@
               <span class="media-corner-cue">02:20</span>
               <div class="card-play-overlay">
                 <div class="play-action-disc" aria-hidden="true">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                  <span class="play-aperture-reticle"></span>
                 </div>
               </div>
             </div>
@@ -476,8 +473,8 @@
               <div class="card-sheet-footer">
                 <span style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-dim);">CUT 04 / TAKE 02</span>
                 <button type="button" class="card-preview-link" data-video-trigger>
-                  Preview Cut
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                  <span>Preview Cut</span>
+                  <span class="preview-film-tag">[ 24 FPS ]</span>
                 </button>
               </div>
             </div>
@@ -503,7 +500,7 @@
               <span class="media-corner-cue">05:40</span>
               <div class="card-play-overlay">
                 <div class="play-action-disc" aria-hidden="true">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                  <span class="play-aperture-reticle"></span>
                 </div>
               </div>
             </div>
@@ -520,8 +517,8 @@
               <div class="card-sheet-footer">
                 <span style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-dim);">CUT 05 / TAKE 01</span>
                 <button type="button" class="card-preview-link" data-video-trigger>
-                  Preview Cut
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                  <span>Preview Cut</span>
+                  <span class="preview-film-tag">[ 24 FPS ]</span>
                 </button>
               </div>
             </div>
@@ -547,7 +544,7 @@
               <span class="media-corner-cue">00:15</span>
               <div class="card-play-overlay">
                 <div class="play-action-disc" aria-hidden="true">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                  <span class="play-aperture-reticle"></span>
                 </div>
               </div>
             </div>
@@ -564,8 +561,8 @@
               <div class="card-sheet-footer">
                 <span style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-dim);">CUT 06 / TAKE 05</span>
                 <button type="button" class="card-preview-link" data-video-trigger>
-                  Preview Cut
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                  <span>Preview Cut</span>
+                  <span class="preview-film-tag">[ 24 FPS ]</span>
                 </button>
               </div>
             </div>
@@ -730,11 +727,8 @@
             <!-- Slate Action Bar -->
             <div class="slate-cta-bar">
               <a href="#contact" class="btn btn-primary">
-                Discuss a Project
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <line x1="5" y1="12" x2="19" y2="12"></line>
-                  <polyline points="12 5 19 12 12 19"></polyline>
-                </svg>
+                <span>Discuss a Project</span>
+                <span class="btn-slate-tag">[ SCENE 01 ]</span>
               </a>
               <span class="slate-cta-note">
                 Ready to cut? Send me a quick brief and let’s talk details.
@@ -1052,10 +1046,8 @@
         <p>&copy; 2026 Puneeth s gowda. All rights reserved.</p>
         <p>Built for <a href="https://github.com/Puneeth-002/project1" target="_blank" rel="noopener noreferrer">Puneeth-002/project1</a> • GitHub Pages Ready</p>
         <a href="#hero" class="back-to-top" id="backToTopBtn" aria-label="Scroll back to top">
-          Back to top
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <polyline points="18 15 12 9 6 15"></polyline>
-          </svg>
+          <span>BACK TO SCENE 01</span>
+          <span class="back-to-top-indicator" aria-hidden="true">▲</span>
         </a>
       </div>
     </div>

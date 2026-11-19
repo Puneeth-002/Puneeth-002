@@ -20,22 +20,20 @@
   // ---------------------------------------------------------------- constants
 
   const NAMES = [
-    "Ada", "Linus", "Grace", "Alan", "Margaret", "Ken", "Barbara", "Dennis",
-    "Radia", "Guido", "Frances", "Bjarne", "Hedy", "Tim", "Katherine", "Edsger",
-    "Joan", "Donald", "Sophie", "Niklaus", "Anita", "Brian", "Mary", "Rob",
-    "Ida", "Yukihiro", "Shafi", "Leslie", "Jean", "Vint", "Lynn", "Bram",
+    "LEAD EDITOR", "DIRECTOR", "COLORIST", "DOP", "SOUND DES.",
+    "VFX ARTIST", "TIMELINE", "ASSEMBLY", "CAMERA OP", "GAFFER"
   ];
   const COLORS = [
-    "#F24E1E", "#A259FF", "#1ABCFE", "#0ACF83", "#FF7262", "#FFC700",
-    "#9747FF", "#E8467C", "#14AE5C", "#0D99FF", "#FF8A00", "#00B5CE",
+    "#E06D34", "#F58342", "#4FA3D1", "#E5A963", "#5DC5C2",
+    "#E8E6E1", "#C4A882", "#98A2B3", "#D97736", "#68B2D0"
   ];
-  const BLUE = "#0D99FF";
-  const RED = "#F24822";
+  const BLUE = "#E06D34";
+  const RED = "#E06D34";
   const RULER = 20;
-  const MIN_AGENTS = 8;
-  const MAX_AGENTS = 48;
-  const FLOCK_AGENTS = 36;
-  const INTRO_AGENTS = 18;
+  const MIN_AGENTS = 4;
+  const MAX_AGENTS = 10;
+  const FLOCK_AGENTS = 8;
+  const INTRO_AGENTS = 6;
   const MAX_ITEMS = 4000;
   const MAX_WORLD_H = 40000;
   const SVGNS = "http://www.w3.org/2000/svg";
@@ -75,12 +73,11 @@
   const ltrb = (r) => ({ l: r.left, t: r.top, r: r.right, b: r.bottom });
 
   // ----------------------------------------------------------- cursor shapes
-
-  const ARROW_D =
-    "M4.6 3.9 C4.2 3.1 4.9 2.4 5.7 2.8 L20.6 9.4 C21.5 9.8 21.4 11.1 20.4 11.3 L13.9 12.9 C13.4 13 13 13.4 12.9 13.9 L11.3 20.4 C11.1 21.4 9.8 21.5 9.4 20.6 Z";
+  // Sleek Cinema Viewfinder Stylus (Razor-sharp modern pointer with micro-optical reticle)
+  const POINTER_D = "M3 3 L3 17 L7 13.5 L10.8 20.5 L13 19.2 L9.3 12.8 L15 12.2 Z";
   const HOT = {
-    arrow: [5, 3.5],
-    dup: [5, 3.5],
+    arrow: [3, 3],
+    dup: [3, 3],
     pen: [3, 3],
     "pen-add": [3, 3],
     "pen-close": [3, 3],
@@ -91,14 +88,20 @@
   };
 
   function cursorSVG(shape, c) {
-    const st = 'stroke="#fff" stroke-width="1.5" stroke-linejoin="round"';
+    const st = 'stroke="#0a0c10" stroke-width="1.8" stroke-linejoin="round"';
     switch (shape) {
       case "arrow":
-        return `<path d="${ARROW_D}" fill="${c}" ${st}/>`;
+        return `<g stroke-linejoin="round" stroke-linecap="round">
+          <path d="${POINTER_D}" fill="${c}" ${st}/>
+          <circle cx="3" cy="3" r="1.5" fill="#ffffff" stroke="${c}" stroke-width="0.75"/>
+        </g>`;
       case "dup":
         return (
-          `<path d="${ARROW_D}" transform="translate(4 3.5)" fill="#fff" stroke="${c}" stroke-width="1.3" stroke-linejoin="round"/>` +
-          `<path d="${ARROW_D}" fill="${c}" ${st}/>`
+          `<g stroke-linejoin="round" stroke-linecap="round">
+            <path d="${POINTER_D}" transform="translate(4 3.5)" fill="rgba(255,255,255,0.7)" stroke="#0a0c10" stroke-width="1.4"/>
+            <path d="${POINTER_D}" fill="${c}" ${st}/>
+            <circle cx="3" cy="3" r="1.5" fill="#ffffff" stroke="${c}" stroke-width="0.75"/>
+          </g>`
         );
       case "pen":
       case "pen-add":
@@ -120,8 +123,11 @@
       }
       case "cross":
         return (
-          `<g stroke-linecap="round"><path d="M12 3.5 V20.5 M3.5 12 H20.5" stroke="#fff" stroke-width="3.6"/>` +
-          `<path d="M12 3.5 V20.5 M3.5 12 H20.5" stroke="${c}" stroke-width="1.5"/></g>`
+          `<g stroke-linecap="round">
+            <path d="M12 4 V20 M4 12 H20" stroke="#000" stroke-width="3" opacity="0.4"/>
+            <path d="M12 4 V20 M4 12 H20" stroke="${c}" stroke-width="1.5"/>
+            <circle cx="12" cy="12" r="3" fill="none" stroke="${c}" stroke-width="1.2"/>
+          </g>`
         );
       case "ibeam": {
         const d =
@@ -1503,42 +1509,42 @@
 .bd{position:absolute;opacity:0;-webkit-backdrop-filter:saturate(180%) blur(14px);backdrop-filter:saturate(180%) blur(14px);box-shadow:0 1px 0 rgba(0,0,0,.06);pointer-events:none}
 .caret{display:inline-block;width:1.5px;height:1.1em;margin-left:1px;margin-right:-2.5px;vertical-align:text-bottom;background:currentColor;animation:blink 1s steps(1) infinite}
 @keyframes blink{50%{opacity:0}}
-.sa{background-color:rgba(13,153,255,.28)!important}
+.sa{background-color:rgba(224,109,52,.28)!important}
 .ov{position:absolute;left:0;top:0;width:100%;height:100%;overflow:visible;pointer-events:none}
 .badges,.cursors{position:absolute;inset:0;pointer-events:none;overflow:hidden}
-.badge{position:absolute;transform:translate(-50%);padding:1px 4px;border-radius:2px;color:#fff;font:600 11px/16px Inter,system-ui,-apple-system,"Segoe UI",sans-serif;white-space:nowrap;font-variant-numeric:tabular-nums}
+.badge{position:absolute;transform:translate(-50%);padding:1px 5px;border-radius:2px;color:#fff;font:700 9px/13px ui-monospace,"SF Mono",Consolas,monospace;letter-spacing:0.08em;text-transform:uppercase;white-space:nowrap;font-variant-numeric:tabular-nums;border:1px solid rgba(255,255,255,.22);box-shadow:0 2px 8px rgba(0,0,0,.6)}
 .cursor{position:absolute;left:0;top:0;will-change:transform}
-.cursor svg{position:absolute;overflow:visible;filter:drop-shadow(0 1px 1.5px rgba(0,0,0,.28))}
+.cursor svg{position:absolute;overflow:visible;filter:drop-shadow(0 2px 5px rgba(0,0,0,.6))}
 .rulers{position:absolute;inset:0;pointer-events:none}
-.ruler{position:absolute;background:#2c2c2c;pointer-events:none}
+.ruler{position:absolute;background:#141720;pointer-events:none}
 .ruler svg{display:block}
-.ruler-top{top:0;left:0;right:0;height:20px;border-bottom:1px solid #3a3a3a}
-.ruler-left{top:0;left:0;bottom:0;width:20px;border-right:1px solid #3a3a3a}
-.ruler-corner{position:absolute;top:0;left:0;width:20px;height:20px;background:#2c2c2c}
-.rtext{font:500 9px Inter,system-ui,-apple-system,sans-serif;fill:#8c8c8c}
-.rsel{fill:#0d99ff}
+.ruler-top{top:0;left:0;right:0;height:20px;border-bottom:1px solid rgba(224,109,52,.25)}
+.ruler-left{top:0;left:0;bottom:0;width:20px;border-right:1px solid rgba(224,109,52,.25)}
+.ruler-corner{position:absolute;top:0;left:0;width:20px;height:20px;background:#141720}
+.rtext{font:600 9px ui-monospace,monospace;fill:#e06d34}
+.rsel{fill:#e06d34}
 .intro{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) scale(.92);opacity:0;transition:opacity .35s ease,transform .45s cubic-bezier(.2,.8,.2,1);pointer-events:none}
 .intro.on{opacity:1;transform:translate(-50%,-50%)}
 .intro.gone{opacity:0;transform:translate(-50%,-50%) scale(.9)}
 .intro img{display:block;width:60px;height:60px;object-fit:contain;filter:grayscale(1);opacity:.42;border-radius:14px}
 .intro .mono{width:60px;height:60px;border-radius:16px;background:#D7DADE;color:#fff;font:700 30px/60px Inter,system-ui,sans-serif;text-align:center}
-.hud{position:absolute;left:50%;bottom:20px;transform:translate(-50%,18px);opacity:0;display:flex;align-items:center;gap:10px;padding:6px 6px 6px 10px;background:rgba(30,30,30,.94);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);color:#fff;border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,.28),inset 0 0 0 1px rgba(255,255,255,.07);font:500 12px/1 Inter,system-ui,-apple-system,"Segoe UI",sans-serif;pointer-events:auto;transition:opacity .45s ease,transform .45s cubic-bezier(.2,.8,.2,1);white-space:nowrap;user-select:none;z-index:5}
+.hud{position:absolute;left:50%;bottom:20px;transform:translate(-50%,18px);opacity:0;display:flex;align-items:center;gap:10px;padding:6px 6px 6px 12px;background:rgba(14,16,22,.96);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);color:#f8f7f2;border-radius:10px;box-shadow:0 16px 40px rgba(0,0,0,.8),0 0 24px rgba(224,109,52,.15);border:1px solid rgba(224,109,52,.35);font:600 11px/1 ui-monospace,"SF Mono",Consolas,sans-serif;letter-spacing:0.04em;pointer-events:auto;transition:opacity .45s ease,transform .45s cubic-bezier(.2,.8,.2,1);white-space:nowrap;user-select:none;z-index:5}
 .hud.on{opacity:1;transform:translate(-50%,0)}
 .hud .dots{display:flex;padding-left:5px}
-.hud .dots i{display:block;width:18px;height:18px;margin-left:-5px;border-radius:50%;border:2px solid #1e1e1e;font:700 9px/14px Inter,system-ui,sans-serif;font-style:normal;text-align:center;color:#fff;transition:background .3s}
-.hud .txt,.hud .status{display:flex;align-items:center;gap:7px;color:#cfcfcf;font-variant-numeric:tabular-nums}
-.hud .txt b{color:#fff;font-weight:600}
-.hud .sep{width:1px;height:12px;background:#444}
-.hud .bar{width:64px;height:3px;border-radius:2px;background:#3a3a3a;overflow:hidden}
-.hud .bar i{display:block;height:100%;width:0;background:#0D99FF;transition:width .35s ease}
-.hud button{all:unset;cursor:pointer;padding:7px 10px;border-radius:8px;background:#2c2c2c;color:#fff;font:500 12px/1 Inter,system-ui,-apple-system,sans-serif;transition:background .15s}
-.hud button:hover{background:#3a3a3a}
-.hud button.pri{background:#0D99FF}
-.hud button.pri:hover{background:#2aa6ff}
+.hud .dots i{display:block;width:18px;height:18px;margin-left:-5px;border-radius:50%;border:2px solid #0e1016;font:700 9px/14px ui-monospace,monospace;font-style:normal;text-align:center;color:#fff;transition:background .3s}
+.hud .txt,.hud .status{display:flex;align-items:center;gap:7px;color:#cac5b8;font-variant-numeric:tabular-nums}
+.hud .txt b{color:#fff;font-weight:700}
+.hud .sep{width:1px;height:12px;background:rgba(255,255,255,.18)}
+.hud .bar{width:64px;height:3px;border-radius:2px;background:#242834;overflow:hidden}
+.hud .bar i{display:block;height:100%;width:0;background:#e06d34;transition:width .35s ease}
+.hud button{all:unset;cursor:pointer;padding:7px 11px;border-radius:6px;background:#202533;color:#f8f7f2;border:1px solid rgba(255,255,255,.1);font:600 11px/1 ui-monospace,monospace;letter-spacing:0.05em;text-transform:uppercase;transition:all .15s}
+.hud button:hover{background:#2c3345;border-color:rgba(224,109,52,.5);color:#fff}
+.hud button.pri{background:#e06d34;color:#0c0d10;border-color:#e06d34;font-weight:700}
+.hud button.pri:hover{background:#f17f46;border-color:#f17f46}
 .hud button.on{background:rgba(13,153,255,.22);color:#8fd0ff}
 .hud button[hidden]{display:none}
 .hud .x{padding:7px 9px;color:#aaa}
-.hud button.snd{display:flex;align-items:center;gap:6px;padding:6px 8px}
+.hud button.snd{display:none !important}
 .hud button.snd.off{color:#8a8a8a}
 .hud button.snd.tap{background:#0D99FF;animation:hudpulse 1.6s ease-in-out infinite}
 @keyframes hudpulse{50%{box-shadow:0 0 0 4px rgba(13,153,255,.28)}}
@@ -3073,12 +3079,12 @@
   const PENTA = [0, 2, 4, 7, 9]; // E F# G# B C#
   const E2 = 40;
   const mtof = (m) => 440 * Math.pow(2, (m - 69) / 12);
-  let soundPref = true;
-  const SPK_ICON = '<svg viewBox="0 0 16 16" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 6v4h2.5l3.5 3V3L5 6z" fill="currentColor"/>';
+  let soundPref = false;
+  const SPK_ICON = '';
 
   class Sound {
     constructor() {
-      this.on = soundPref;
+      this.on = false;
       this.ctx = null;
       this.bpm = 104;
       this.slots = new Map();
@@ -3087,16 +3093,13 @@
       this.pressTimes = [];
       this.ends = []; // when each sounding piano voice dies out
       this.fakeNow = null; // offline renders drive the clock explicitly
+      this.blocked = false;
     }
 
-    init(offline) {
-      if (this.ctx) return true;
-      try {
-        const Ctx = window.AudioContext || window.webkitAudioContext;
-        this.ctx = offline || new Ctx({ latencyHint: "interactive" });
-      } catch (_) {
-        return false;
-      }
+    init() {
+      // Audio completely disabled per cinematic silent rebuild requirement
+      return false;
+    }
       const ctx = this.ctx;
       const out = ctx.createGain();
       out.gain.value = this.on ? 1 : 0;
