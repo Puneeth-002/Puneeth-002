@@ -90,7 +90,7 @@ In addition to being embedded directly on Puneeth's portfolio website, the compl
   ```text
   assets/portrait.jpg
   ```
-- To update it in the future, simply drop your new photo into `assets/` and name it `portrait.jpg` (or update the `src` attribute in `index.html` under `<div class="portrait-media-wrap">`).
+- To update it in the future, simply drop your new photo into `assets/` andn ame it `portrait.jpg` (or update the `src` attribute in `index.html` under `<div class="portrait-media-wrap">`).
 
 ### 2. Replacing Project Videos with Real Footage
 In `index.html`, locate `<section id="selected-work">`. Each project card has data attributes:
