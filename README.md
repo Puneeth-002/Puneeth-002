@@ -6,6 +6,13 @@ An expressive, cinematic portfolio website for freelance video editor **Puneeth 
 
 ## 🎬 Design Concept & Highlights
 
+- **✨ Swarm Cursors Live Rebuild Integration**:
+  - Integrated directly into the website from [Dhvanil Patel's Swarm Cursors](https://github.com/DhvanilPatel/swarm-cursors) (inspired by [Joel Califa's Swarm](https://joelcalifa.com)).
+  - Click **✨ Swarm Rebuild** in the navigation, click the Hero CTA button, or press **`Alt+Shift+S`** anywhere on the page.
+  - The entire page dissolves into a blank canvas while a multiplayer swarm of colored cursors (`Ada`, `Linus`, `Grace`, `Alan`, etc.) dynamically reconstructs Puneeth's portfolio live in front of you.
+  - Features real-time crosshair-drawn layout boxes, kinetic text typing, pen-tool lines, snap-to ruler guides, and live synthesized sound effects via Web Audio API.
+  - Includes full toolbar controls: speed adjustment (1× / 2× / 3×), Tour mode (auto-scroll), live sound toggle (`M`), toolbar toggle (`H`), and clean exit (`Esc` or **Go Live**).
+  - Also supports auto-start on load via URL parameter `index.html?swarm=1` or hash `#swarm`.
 - **Paused Film Frame Hero**: The opening features Puneeth's actual editorial portrait framed like a paused director's monitor frame with corner crop marks (`⌜ ⌝ ⌞ ⌟`), `REC ●` blinking telemetry, 2.39:1 Cinemascope indicators, and the personal tagline: *“You bring the footage. Let’s find the story in it.”*
 - **Persistent Editing Playhead (Timeline Scrubber)**: A slim timeline scrubber at the top of the browser that tracks your scroll position in real time with a moving playhead marker and a live timecode readout (`00:00:00:00` to `00:05:00:00`).
 - **Cinematic Contact Sheet for Selected Work**:
@@ -39,7 +46,18 @@ project1/
 ├── css/
 │   └── style.css                # Cinematic film journal styles & CSS tokens
 ├── js/
-│   └── main.js                  # Timeline scrubber, timecode, modal, filters, copy button
+│   ├── swarm.js                 # Swarm Cursors snapshotter, flocking physics & sound engine
+│   └── main.js                  # Timeline scrubber, timecode, modal, filters, copy button, swarm triggers
+├── swarm-rebuild/               # Full Chrome Extension (Manifest V3)
+│   ├── manifest.json            # Extension configuration
+│   ├── background.js            # Service worker & toolbar injection
+│   ├── swarm.js                 # Extension content script
+│   ├── autoplay.js              # Optional auto-play script
+│   ├── options.html & .js       # Extension options
+│   └── icons/                   # Chrome extension icons
+├── demo/
+│   └── index.html               # Swarm Cursors edge-case test page
+├── media/                       # Swarm Cursors video demos & graphics
 └── assets/
     ├── portrait.jpg             # Puneeth's editorial portrait photo (used in Hero)
     ├── favicon.svg              # Custom film reel favicon
@@ -50,6 +68,18 @@ project1/
     ├── placeholder-event.svg    # Event recap montage thumbnail
     └── placeholder-talking-head.svg # Talking head / tutorial clean-up thumbnail
 ```
+
+---
+
+## ⚡ Using Swarm Cursors as a Chrome Extension
+
+In addition to being embedded directly on Puneeth's portfolio website, the complete Chrome extension is included in the `swarm-rebuild/` directory:
+
+1. Open Chrome and navigate to `chrome://extensions`.
+2. Turn on **Developer mode** (top right toggle).
+3. Click **Load unpacked** and select the `swarm-rebuild/` folder inside this project.
+4. Pin the extension to your toolbar.
+5. Press **`Alt+Shift+S`** or click the extension icon on any website to watch the cursors rebuild that site!
 
 ---
 

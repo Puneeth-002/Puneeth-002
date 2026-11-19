@@ -65,6 +65,11 @@
 
       <!-- Nav Actions -->
       <div class="nav-right-actions">
+        <button type="button" class="btn btn-swarm btn-sm" id="navSwarmBtn" title="Watch animated cursors rebuild this page live (Alt+Shift+S)">
+          <span class="swarm-sparkle" aria-hidden="true">✨</span>
+          <span>Swarm Rebuild</span>
+          <kbd class="shortcut-pill">⌥⇧S</kbd>
+        </button>
         <a href="#contact" class="btn btn-secondary btn-sm">Start Project</a>
         <button class="nav-toggle" type="button" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="mobileNav">
           <span></span>
@@ -100,6 +105,10 @@
         Contact
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
       </a>
+      <button type="button" class="mobile-nav-link mobile-swarm-btn" id="mobileSwarmBtn">
+        <span>✨ Rebuild with Swarm Cursors</span>
+        <span class="mobile-shortcut-badge">Alt+Shift+S</span>
+      </button>
     </nav>
   </header>
 
@@ -151,6 +160,11 @@
                 </svg>
                 Watch My Work
               </a>
+              <button type="button" class="btn btn-swarm-hero" id="heroSwarmBtn" title="Wipe page and let cursors rebuild it live! (Alt+Shift+S)">
+                <span class="swarm-sparkle" aria-hidden="true">✨</span>
+                <span>Swarm Rebuild</span>
+                <span class="hero-shortcut-badge">⌥⇧S</span>
+              </button>
               <a href="#first-collaborations" class="btn btn-secondary">
                 Introductory Offer
               </a>
@@ -1083,6 +1097,7 @@
     </div>
   </div>
 
+  <script src="js/swarm.js"></script>
   <script src="js/main.js"></script>
 </body>
 </html>

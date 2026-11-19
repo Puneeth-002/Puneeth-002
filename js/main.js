@@ -17,6 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initEmailCopy();
   initContactForm();
   initBackToTop();
+  initSwarmIntegration();
 });
 
 /**
@@ -565,5 +566,37 @@ function initHeroScrollCue() {
   cue.addEventListener('click', (e) => {
     e.preventDefault();
     target.scrollIntoView({ behavior: 'smooth' });
+  });
+}
+
+/**
+ * 14. Swarm Cursors Rebuild Integration
+ * Triggers multiplayer cursor animation with flocking physics, guides, and synthesized audio.
+ * Shortcuts: Alt+Shift+S, Esc to exit, M for sound, H to hide controls.
+ */
+function initSwarmIntegration() {
+  const triggerSwarm = (e) => {
+    if (e) e.preventDefault();
+    if (window.__swarmRebuild) {
+      window.__swarmRebuild.toggle();
+    } else {
+      console.warn('Swarm Rebuild engine is still loading...');
+    }
+  };
+
+  const navBtn = document.getElementById('navSwarmBtn');
+  const heroBtn = document.getElementById('heroSwarmBtn');
+  const mobileBtn = document.getElementById('mobileSwarmBtn');
+
+  if (navBtn) navBtn.addEventListener('click', triggerSwarm);
+  if (heroBtn) heroBtn.addEventListener('click', triggerSwarm);
+  if (mobileBtn) mobileBtn.addEventListener('click', triggerSwarm);
+
+  // Global Alt+Shift+S shortcut listener
+  window.addEventListener('keydown', (e) => {
+    if (e.altKey && e.shiftKey && (e.key === 'S' || e.key === 's' || e.code === 'KeyS')) {
+      e.preventDefault();
+      triggerSwarm();
+    }
   });
 }

@@ -2225,3 +2225,122 @@ select:focus-visible {
     transition: none !important;
   }
 }
+
+/* --------------------------------------------------------------------------
+   SWARM CURSORS REBUILD BUTTONS & BADGES
+   -------------------------------------------------------------------------- */
+.btn-swarm {
+  background: linear-gradient(135deg, rgba(224, 109, 52, 0.16) 0%, rgba(162, 89, 255, 0.16) 100%);
+  color: var(--text-pure);
+  border: 1px solid rgba(224, 109, 52, 0.45);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.45rem 0.85rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  border-radius: var(--radius-xs);
+  transition: all var(--trans-instant);
+  box-shadow: 0 0 14px rgba(224, 109, 52, 0.15);
+}
+
+.btn-swarm:hover {
+  background: linear-gradient(135deg, rgba(224, 109, 52, 0.28) 0%, rgba(162, 89, 255, 0.28) 100%);
+  border-color: var(--accent);
+  box-shadow: 0 0 20px rgba(224, 109, 52, 0.35);
+  transform: translateY(-1px);
+}
+
+.shortcut-pill {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  padding: 2px 5px;
+  background-color: rgba(0, 0, 0, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 3px;
+  color: var(--text-warm);
+  line-height: 1;
+}
+
+.btn-swarm-hero {
+  background: linear-gradient(135deg, rgba(224, 109, 52, 0.18) 0%, rgba(13, 153, 255, 0.15) 100%);
+  color: var(--text-pure);
+  border: 1px solid rgba(224, 109, 52, 0.5);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  padding: 0.85rem 1.65rem;
+  border-radius: var(--radius-xs);
+  font-size: 0.92rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  transition: all var(--trans-instant);
+  box-shadow: 0 4px 18px rgba(224, 109, 52, 0.2);
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.btn-swarm-hero:hover {
+  background: linear-gradient(135deg, rgba(224, 109, 52, 0.3) 0%, rgba(13, 153, 255, 0.25) 100%);
+  border-color: var(--accent-hover);
+  box-shadow: 0 6px 24px rgba(224, 109, 52, 0.38);
+  transform: translateY(-2px);
+}
+
+.hero-shortcut-badge {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  padding: 2px 6px;
+  background-color: rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+  color: var(--text-warm);
+}
+
+.mobile-swarm-btn {
+  background: linear-gradient(90deg, rgba(224, 109, 52, 0.12) 0%, transparent 100%);
+  color: var(--accent-light);
+  border: none;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.mobile-swarm-btn:hover {
+  color: var(--accent-hover);
+  background: linear-gradient(90deg, rgba(224, 109, 52, 0.2) 0%, transparent 100%);
+}
+
+.mobile-shortcut-badge {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  padding: 2px 7px;
+  background-color: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 4px;
+  color: var(--text-dim);
+}
+
+.swarm-sparkle {
+  display: inline-block;
+  animation: sparkleTwinkle 2.2s infinite ease-in-out;
+}
+
+@keyframes sparkleTwinkle {
+  0%, 100% { transform: scale(1) rotate(0deg); opacity: 0.85; }
+  50% { transform: scale(1.2) rotate(12deg); opacity: 1; }
+}
+
+@media (max-width: 600px) {
+  #navSwarmBtn .shortcut-pill {
+    display: none;
+  }
+  #navSwarmBtn {
+    padding: 0.4rem 0.65rem;
+    font-size: 0.76rem;
+  }
+}
