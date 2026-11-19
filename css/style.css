@@ -86,16 +86,30 @@ body {
   position: relative;
 }
 
-/* Subtle Film Grain & Celluloid Vignette Texture */
+/* Deep Celluloid Texture & Anamorphic Ambient Glow */
 body::before {
   content: "";
   position: fixed;
   inset: 0;
   background-image: 
-    radial-gradient(circle at 50% 12%, rgba(224, 109, 52, 0.06) 0%, transparent 60%),
-    radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.02) 0%, transparent 50%);
+    radial-gradient(circle at 50% 10%, rgba(224, 109, 52, 0.08) 0%, transparent 60%),
+    radial-gradient(ellipse 90% 40% at 50% 40%, rgba(56, 189, 248, 0.03) 0%, transparent 70%),
+    radial-gradient(circle at 85% 85%, rgba(255, 255, 255, 0.015) 0%, transparent 50%);
   pointer-events: none;
   z-index: 0;
+}
+
+body::after {
+  content: "";
+  position: fixed;
+  top: 22px;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, rgba(224, 109, 52, 0.5) 25%, #38bdf8 50%, rgba(224, 109, 52, 0.5) 75%, transparent 100%);
+  box-shadow: 0 0 16px rgba(56, 189, 248, 0.45);
+  pointer-events: none;
+  z-index: 1002;
 }
 
 img, svg, video {
@@ -131,11 +145,61 @@ select:focus-visible {
 }
 
 /* --------------------------------------------------------------------------
+   2.5. CINEMATIC 2.39:1 LETTERBOX BAR
+   -------------------------------------------------------------------------- */
+.cinema-letterbox-top {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 22px;
+  background: #040507;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  z-index: 1001;
+  display: flex;
+  align-items: center;
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.12em;
+  padding: 0 var(--container-pad);
+  pointer-events: none;
+}
+
+.letterbox-inner {
+  width: 100%;
+  max-width: var(--container-max);
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.aspect-telemetry {
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.anamorphic-lut-tag {
+  color: var(--text-dim);
+}
+
+.fps-tag {
+  color: #38bdf8;
+  font-weight: 600;
+}
+
+@media (max-width: 640px) {
+  .anamorphic-lut-tag {
+    display: none;
+  }
+}
+
+/* --------------------------------------------------------------------------
    3. PERSISTENT TIMELINE PLAYHEAD (SCRUBBER)
    -------------------------------------------------------------------------- */
 .timeline-scrubber {
   position: fixed;
-  top: 0;
+  top: 22px;
   left: 0;
   right: 0;
   height: var(--playhead-height);
@@ -169,7 +233,7 @@ select:focus-visible {
    -------------------------------------------------------------------------- */
 .site-header {
   position: sticky;
-  top: 0;
+  top: 22px;
   left: 0;
   right: 0;
   height: var(--nav-height);
@@ -518,6 +582,22 @@ select:focus-visible {
   display: flex;
   align-items: center;
   position: relative;
+  overflow: hidden;
+}
+
+.hero-section::before {
+  content: "";
+  position: absolute;
+  top: 15%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  max-width: 1200px;
+  height: 420px;
+  background: radial-gradient(ellipse 60% 40% at 50% 50%, rgba(224, 109, 52, 0.14) 0%, rgba(56, 189, 248, 0.05) 50%, transparent 75%);
+  filter: blur(60px);
+  pointer-events: none;
+  z-index: 0;
 }
 
 .hero-grid {
@@ -616,27 +696,37 @@ select:focus-visible {
 
 .hero-director-name {
   font-family: var(--font-mono);
-  font-size: 0.9rem;
-  letter-spacing: 0.18em;
+  font-size: 0.88rem;
+  letter-spacing: 0.24em;
   text-transform: uppercase;
   color: var(--accent);
-  font-weight: 600;
-  margin-bottom: 0.6rem;
-  display: block;
+  font-weight: 700;
+  margin-bottom: 0.65rem;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.hero-director-name::before {
+  content: "◈";
+  font-size: 0.75rem;
+  color: var(--accent);
 }
 
 .hero-movie-title {
-  font-size: clamp(2.4rem, 5.2vw, 4.2rem);
+  font-size: clamp(2.5rem, 5.5vw, 4.4rem);
   font-weight: 900;
-  letter-spacing: -0.035em;
-  line-height: 1.08;
+  letter-spacing: -0.04em;
+  line-height: 1.05;
   color: var(--text-pure);
+  text-shadow: 0 4px 28px rgba(0, 0, 0, 0.9);
 }
 
 .hero-movie-title .title-accent {
-  background: linear-gradient(135deg, var(--text-pure) 30%, var(--accent) 100%);
+  background: linear-gradient(135deg, #ffffff 15%, var(--accent) 70%, #ff9a60 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  text-shadow: 0 0 35px rgba(224, 109, 52, 0.45);
 }
 
 .hero-tagline {
@@ -733,16 +823,17 @@ select:focus-visible {
 
 .film-monitor-frame {
   position: relative;
-  background-color: #08090c;
-  border: 1px solid var(--film-border-strong);
+  background-color: #050608;
+  border: 1px solid rgba(224, 109, 52, 0.45);
   border-radius: var(--radius-sm);
   padding: 12px;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7), 0 0 30px rgba(224, 109, 52, 0.12);
-  transition: transform var(--trans-smooth), border-color var(--trans-smooth);
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.85), 0 0 35px rgba(224, 109, 52, 0.18);
+  transition: transform var(--trans-smooth), border-color var(--trans-smooth), box-shadow var(--trans-smooth);
 }
 
 .film-monitor-frame:hover {
-  border-color: var(--accent-border);
+  border-color: var(--accent);
+  box-shadow: 0 30px 75px rgba(0, 0, 0, 0.95), 0 0 45px rgba(224, 109, 52, 0.3);
   transform: translateY(-4px);
 }
 
@@ -827,12 +918,40 @@ select:focus-visible {
   position: absolute;
   inset: 0;
   background: 
-    linear-gradient(to top, rgba(11, 13, 17, 0.85) 0%, rgba(11, 13, 17, 0.1) 45%, rgba(11, 13, 17, 0.4) 100%);
+    linear-gradient(to top, rgba(11, 13, 17, 0.88) 0%, rgba(11, 13, 17, 0.08) 45%, rgba(11, 13, 17, 0.35) 100%);
   pointer-events: none;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
   padding: 1.25rem;
+}
+
+/* Center Optical Focus Reticle */
+.portrait-overlay-cinematic::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 32px;
+  height: 32px;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  border-radius: 50%;
+  pointer-events: none;
+  background: radial-gradient(circle, var(--accent) 1.5px, transparent 2px);
+  box-shadow: 0 0 10px rgba(224, 109, 52, 0.4);
+}
+
+.portrait-overlay-cinematic::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 44px;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.2);
+  pointer-events: none;
 }
 
 .portrait-frame-badge {

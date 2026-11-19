@@ -1485,7 +1485,7 @@
   const STYLE = `
 :host{all:initial}
 *{box-sizing:border-box}
-.bg{position:absolute;inset:0;opacity:0;transition:opacity .5s ease}
+.bg{position:absolute;inset:0;opacity:0;transition:opacity .5s ease;background-image:linear-gradient(rgba(224,109,52,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(224,109,52,.03) 1px,transparent 1px);background-size:48px 48px}
 .bg.on{opacity:1}
 .layer,.port{position:absolute;overflow:hidden;pointer-events:none}
 .layer{inset:0}

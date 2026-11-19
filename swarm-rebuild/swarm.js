@@ -139,8 +139,9 @@
       }
       case "ew":
       case "ns":
-        return `<path d="M2.5 12 L7 7.5 V10.4 H17 V7.5 L21.5 12 L17 16.5 V13.6 H7 V16.5 Z"${shape === "ns" ? ' transform="rotate(90 12 12)"' : ""
-          } fill="${c}" ${st}/>`;
+        return `<path d="M2.5 12 L7 7.5 V10.4 H17 V7.5 L21.5 12 L17 16.5 V13.6 H7 V16.5 Z"${
+          shape === "ns" ? ' transform="rotate(90 12 12)"' : ""
+        } fill="${c}" ${st}/>`;
     }
     return "";
   }
@@ -352,7 +353,7 @@
     if (lazy && (!s || s.startsWith("data:") || !img.complete || !img.naturalWidth)) {
       try {
         s = new URL(lazy, location.href).href;
-      } catch (_) { }
+      } catch (_) {}
     }
     return s;
   }
@@ -436,7 +437,7 @@
       if (!c || /^(blob|mediasource):/i.test(c)) continue;
       try {
         return new URL(c, location.href).href;
-      } catch (_) { }
+      } catch (_) {}
     }
     return null;
   }
@@ -903,7 +904,7 @@
             c.height = el.videoHeight;
             c.getContext("2d").drawImage(el, 0, 0);
             src = c.toDataURL("image/jpeg", 0.82);
-          } catch (_) { }
+          } catch (_) {}
         }
         if (src) {
           const m = document.createElement("img");
@@ -925,7 +926,7 @@
       let host = "";
       try {
         host = new URL(el.src || el.data || "", location.href).hostname.replace(/^www\./, "");
-      } catch (_) { }
+      } catch (_) {}
       d.setAttribute(
         "style",
         "background:#F1F2F4;display:flex;align-items:center;justify-content:center;font:500 12px/1.2 system-ui,sans-serif;color:#8A8F98;letter-spacing:.01em;",
@@ -1484,7 +1485,7 @@
   const STYLE = `
 :host{all:initial}
 *{box-sizing:border-box}
-.bg{position:absolute;inset:0;opacity:0;transition:opacity .5s ease}
+.bg{position:absolute;inset:0;opacity:0;transition:opacity .5s ease;background-image:linear-gradient(rgba(224,109,52,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(224,109,52,.03) 1px,transparent 1px);background-size:48px 48px}
 .bg.on{opacity:1}
 .layer,.port{position:absolute;overflow:hidden;pointer-events:none}
 .layer{inset:0}
@@ -1881,7 +1882,7 @@
             m.muted = true;
             const t = parseFloat(m.getAttribute("data-t"));
             if (t > 0) m.addEventListener("loadedmetadata", () => (m.currentTime = t), { once: true });
-            if (m.hasAttribute("data-play")) m.play().catch(() => { });
+            if (m.hasAttribute("data-play")) m.play().catch(() => {});
           }
           n._src = src;
           if (src.frame) {
@@ -2629,7 +2630,7 @@
     }
 
     *idle(c) {
-      for (; ;) {
+      for (;;) {
         const vp = this.vp;
         const top = this.viewTop;
         const bot = this.viewBot;
@@ -3099,799 +3100,799 @@
       // Audio completely disabled per cinematic silent rebuild requirement
       return false;
     }
-    const ctx = this.ctx;
-    const out = ctx.createGain();
+      const ctx = this.ctx;
+      const out = ctx.createGain();
       out.gain.value = this.on ? 1 : 0;
-  const comp = ctx.createDynamicsCompressor();
-  comp.threshold.value = -18;
-  comp.knee.value = 14;
-  comp.ratio.value = 5;
-  comp.attack.value = 0.003;
-  comp.release.value = 0.3;
-  const master = ctx.createGain();
-  master.gain.value = 0.9;
-  master.connect(comp);
-  comp.connect(out);
-  out.connect(ctx.destination);
-  const verb = ctx.createConvolver();
-  verb.buffer = this.impulse(3.2, 2.4);
-  const wet = ctx.createGain();
-  wet.gain.value = 0.5;
-  verb.connect(wet);
-  wet.connect(master);
-  this.out = out;
-  this.master = master;
-  this.verb = verb;
-  this.noiseBuf = this.noise(1.5);
-  this.t0 = this.now();
-  return true;
-}
+      const comp = ctx.createDynamicsCompressor();
+      comp.threshold.value = -18;
+      comp.knee.value = 14;
+      comp.ratio.value = 5;
+      comp.attack.value = 0.003;
+      comp.release.value = 0.3;
+      const master = ctx.createGain();
+      master.gain.value = 0.9;
+      master.connect(comp);
+      comp.connect(out);
+      out.connect(ctx.destination);
+      const verb = ctx.createConvolver();
+      verb.buffer = this.impulse(3.2, 2.4);
+      const wet = ctx.createGain();
+      wet.gain.value = 0.5;
+      verb.connect(wet);
+      wet.connect(master);
+      this.out = out;
+      this.master = master;
+      this.verb = verb;
+      this.noiseBuf = this.noise(1.5);
+      this.t0 = this.now();
+      return true;
+    }
 
     now() {
-  return this.fakeNow != null ? this.fakeNow : this.ctx.currentTime;
-}
-
-// Generated room: decaying stereo noise, darkened as it rings out.
-impulse(secs, decay) {
-  const sr = this.ctx.sampleRate;
-  const n = Math.floor(sr * secs);
-  const b = this.ctx.createBuffer(2, n, sr);
-  for (let ch = 0; ch < 2; ch++) {
-    const d = b.getChannelData(ch);
-    let lp = 0;
-    for (let i = 0; i < n; i++) {
-      const k = i / n;
-      const a = 0.55 - 0.4 * k; // lowpass closes over time: warm tail
-      lp += a * (Math.random() * 2 - 1 - lp);
-      d[i] = lp * Math.pow(1 - k, decay) * (i < sr * 0.012 ? i / (sr * 0.012) : 1);
+      return this.fakeNow != null ? this.fakeNow : this.ctx.currentTime;
     }
-  }
-  return b;
-}
 
-noise(secs) {
-  const sr = this.ctx.sampleRate;
-  const b = this.ctx.createBuffer(1, Math.floor(sr * secs), sr);
-  const d = b.getChannelData(0);
-  for (let i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1;
-  return b;
-}
+    // Generated room: decaying stereo noise, darkened as it rings out.
+    impulse(secs, decay) {
+      const sr = this.ctx.sampleRate;
+      const n = Math.floor(sr * secs);
+      const b = this.ctx.createBuffer(2, n, sr);
+      for (let ch = 0; ch < 2; ch++) {
+        const d = b.getChannelData(ch);
+        let lp = 0;
+        for (let i = 0; i < n; i++) {
+          const k = i / n;
+          const a = 0.55 - 0.4 * k; // lowpass closes over time: warm tail
+          lp += a * (Math.random() * 2 - 1 - lp);
+          d[i] = lp * Math.pow(1 - k, decay) * (i < sr * 0.012 ? i / (sr * 0.012) : 1);
+        }
+      }
+      return b;
+    }
 
-setOn(on) {
-  this.on = soundPref = on;
-  if (!this.ctx) return;
-  const t = this.ctx.currentTime;
-  this.out.gain.cancelScheduledValues(t);
-  this.out.gain.setTargetAtTime(on ? 1 : 0, t, 0.05);
-  if (on) this.resume();
-}
+    noise(secs) {
+      const sr = this.ctx.sampleRate;
+      const b = this.ctx.createBuffer(1, Math.floor(sr * secs), sr);
+      const d = b.getChannelData(0);
+      for (let i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1;
+      return b;
+    }
 
-resume() {
-  if (this.ctx && this.ctx.state === "suspended" && this.ctx.resume) this.ctx.resume().catch(() => { });
-}
+    setOn(on) {
+      this.on = soundPref = on;
+      if (!this.ctx) return;
+      const t = this.ctx.currentTime;
+      this.out.gain.cancelScheduledValues(t);
+      this.out.gain.setTargetAtTime(on ? 1 : 0, t, 0.05);
+      if (on) this.resume();
+    }
+
+    resume() {
+      if (this.ctx && this.ctx.state === "suspended" && this.ctx.resume) this.ctx.resume().catch(() => {});
+    }
 
     get blocked() {
-  return !!this.ctx && this.ctx.state !== "running" && this.fakeNow == null;
-}
+      return !!this.ctx && this.ctx.state !== "running" && this.fakeNow == null;
+    }
 
-log(fn, args) {
-  if (Array.isArray(window.__swarmSfxLog)) window.__swarmSfxLog.push({ t: performance.now() / 1000, fn, args });
-}
+    log(fn, args) {
+      if (Array.isArray(window.__swarmSfxLog)) window.__swarmSfxLog.push({ t: performance.now() / 1000, fn, args });
+    }
 
-ready() {
-  return this.ctx && this.on && (this.fakeNow != null || this.ctx.state === "running");
-}
+    ready() {
+      return this.ctx && this.on && (this.fakeNow != null || this.ctx.state === "running");
+    }
 
-// next 16th-note on the grid (or 8th for slow, low events)
-grid(div = 4) {
-  const step = 60 / this.bpm / div;
-  const now = this.now() + 0.015;
-  const k = Math.ceil((now - this.t0) / step);
-  return { when: this.t0 + k * step, slot: `${div}:${k}` };
-}
+    // next 16th-note on the grid (or 8th for slow, low events)
+    grid(div = 4) {
+      const step = 60 / this.bpm / div;
+      const now = this.now() + 0.015;
+      const k = Math.ceil((now - this.t0) / step);
+      return { when: this.t0 + k * step, slot: `${div}:${k}` };
+    }
 
-pan(x, vw) {
-  return clamp((x / Math.max(1, vw)) * 1.6 - 0.8, -0.8, 0.8);
-}
+    pan(x, vw) {
+      return clamp((x / Math.max(1, vw)) * 1.6 - 0.8, -0.8, 0.8);
+    }
 
-bus(when, pan, send) {
-  const g = this.ctx.createGain();
-  const p = this.ctx.createStereoPanner();
-  p.pan.setValueAtTime(pan, when);
-  g.connect(p);
-  p.connect(this.master);
-  if (send) {
-    const s = this.ctx.createGain();
-    s.gain.value = send;
-    p.connect(s);
-    s.connect(this.verb);
-  }
-  return g;
-}
+    bus(when, pan, send) {
+      const g = this.ctx.createGain();
+      const p = this.ctx.createStereoPanner();
+      p.pan.setValueAtTime(pan, when);
+      g.connect(p);
+      p.connect(this.master);
+      if (send) {
+        const s = this.ctx.createGain();
+        s.gain.value = send;
+        p.connect(s);
+        s.connect(this.verb);
+      }
+      return g;
+    }
 
-// Glass piano: a few sine partials (one inharmonic, for the glass) with a
-// soft felt-hammer tick, long exponential ring.
-piano(midi, when, vel, pan, ring = 2.4) {
-  const now = this.now();
-  this.ends = this.ends.filter((e) => e > now);
-  if (this.ends.length >= 28) return;
-  const ctx = this.ctx;
-  const f = mtof(midi);
-  const v = this.bus(when, pan, 0.85);
-  v.gain.value = 0.3 * vel;
-  const hi = f > 900;
-  const parts = [
-    [1, 1, 1],
-    [2, 0.38, 0.55],
-    [3, 0.12, 0.32],
-    [2.756, 0.16, 0.42],
-    [5.4, 0.05, 0.16],
-  ];
-  let last = null;
-  for (const [r, a, d] of parts) {
-    if (f * r > 15000) continue;
-    const o = ctx.createOscillator();
-    o.type = "sine";
-    o.frequency.value = f * r * (1 + (Math.random() - 0.5) * 0.002);
-    const g = ctx.createGain();
-    const dec = ring * d * (hi ? 0.65 : 1);
-    g.gain.setValueAtTime(0, when);
-    g.gain.linearRampToValueAtTime(a, when + 0.005);
-    g.gain.exponentialRampToValueAtTime(0.0006, when + dec);
-    o.connect(g);
-    g.connect(v);
-    o.start(when);
-    o.stop(when + dec + 0.05);
-    last = o;
-  }
-  this.hammer(when, v, f, 0.5);
-  this.ends.push(when + ring * (hi ? 0.65 : 1));
-  if (last) last.onended = () => v.disconnect();
-}
+    // Glass piano: a few sine partials (one inharmonic, for the glass) with a
+    // soft felt-hammer tick, long exponential ring.
+    piano(midi, when, vel, pan, ring = 2.4) {
+      const now = this.now();
+      this.ends = this.ends.filter((e) => e > now);
+      if (this.ends.length >= 28) return;
+      const ctx = this.ctx;
+      const f = mtof(midi);
+      const v = this.bus(when, pan, 0.85);
+      v.gain.value = 0.3 * vel;
+      const hi = f > 900;
+      const parts = [
+        [1, 1, 1],
+        [2, 0.38, 0.55],
+        [3, 0.12, 0.32],
+        [2.756, 0.16, 0.42],
+        [5.4, 0.05, 0.16],
+      ];
+      let last = null;
+      for (const [r, a, d] of parts) {
+        if (f * r > 15000) continue;
+        const o = ctx.createOscillator();
+        o.type = "sine";
+        o.frequency.value = f * r * (1 + (Math.random() - 0.5) * 0.002);
+        const g = ctx.createGain();
+        const dec = ring * d * (hi ? 0.65 : 1);
+        g.gain.setValueAtTime(0, when);
+        g.gain.linearRampToValueAtTime(a, when + 0.005);
+        g.gain.exponentialRampToValueAtTime(0.0006, when + dec);
+        o.connect(g);
+        g.connect(v);
+        o.start(when);
+        o.stop(when + dec + 0.05);
+        last = o;
+      }
+      this.hammer(when, v, f, 0.5);
+      this.ends.push(when + ring * (hi ? 0.65 : 1));
+      if (last) last.onended = () => v.disconnect();
+    }
 
-hammer(when, dest, f, amt) {
-  const ctx = this.ctx;
-  const src = ctx.createBufferSource();
-  src.buffer = this.noiseBuf;
-  const bp = ctx.createBiquadFilter();
-  bp.type = "bandpass";
-  bp.frequency.value = Math.min(9000, f * 4 + 1200);
-  bp.Q.value = 1.2;
-  const g = ctx.createGain();
-  g.gain.setValueAtTime(0, when);
-  g.gain.linearRampToValueAtTime(0.25 * amt, when + 0.001);
-  g.gain.exponentialRampToValueAtTime(0.0005, when + 0.03);
-  src.connect(bp);
-  bp.connect(g);
-  g.connect(dest);
-  src.start(when, Math.random());
-  src.stop(when + 0.05);
-}
+    hammer(when, dest, f, amt) {
+      const ctx = this.ctx;
+      const src = ctx.createBufferSource();
+      src.buffer = this.noiseBuf;
+      const bp = ctx.createBiquadFilter();
+      bp.type = "bandpass";
+      bp.frequency.value = Math.min(9000, f * 4 + 1200);
+      bp.Q.value = 1.2;
+      const g = ctx.createGain();
+      g.gain.setValueAtTime(0, when);
+      g.gain.linearRampToValueAtTime(0.25 * amt, when + 0.001);
+      g.gain.exponentialRampToValueAtTime(0.0005, when + 0.03);
+      src.connect(bp);
+      bp.connect(g);
+      g.connect(dest);
+      src.start(when, Math.random());
+      src.stop(when + 0.05);
+    }
 
-// short filtered-noise ticks: typing and clicks
-tick(when, pan, freq, q, vel, len) {
-  const ctx = this.ctx;
-  const src = ctx.createBufferSource();
-  src.buffer = this.noiseBuf;
-  const bp = ctx.createBiquadFilter();
-  bp.type = "bandpass";
-  bp.frequency.value = freq;
-  bp.Q.value = q;
-  const g = this.bus(when, pan, 0.06);
-  g.gain.setValueAtTime(0, when);
-  g.gain.linearRampToValueAtTime(vel, when + 0.0008);
-  g.gain.exponentialRampToValueAtTime(0.0004, when + len);
-  src.connect(bp);
-  bp.connect(g);
-  src.start(when, Math.random() * 1.2);
-  src.stop(when + len + 0.02);
-  src.onended = () => g.disconnect();
-}
+    // short filtered-noise ticks: typing and clicks
+    tick(when, pan, freq, q, vel, len) {
+      const ctx = this.ctx;
+      const src = ctx.createBufferSource();
+      src.buffer = this.noiseBuf;
+      const bp = ctx.createBiquadFilter();
+      bp.type = "bandpass";
+      bp.frequency.value = freq;
+      bp.Q.value = q;
+      const g = this.bus(when, pan, 0.06);
+      g.gain.setValueAtTime(0, when);
+      g.gain.linearRampToValueAtTime(vel, when + 0.0008);
+      g.gain.exponentialRampToValueAtTime(0.0004, when + len);
+      src.connect(bp);
+      bp.connect(g);
+      src.start(when, Math.random() * 1.2);
+      src.stop(when + len + 0.02);
+      src.onended = () => g.disconnect();
+    }
 
-// ---- events (screen coords in; all plain numbers so a log can be replayed)
+    // ---- events (screen coords in; all plain numbers so a log can be replayed)
 
-// one mechanical key: a sharp click on top of a short "thock" (deeper for space)
-clack(when, pan, space, vel = 1) {
-  this.tick(when, pan, rand(3600, 5600), 2.2, rand(0.2, 0.3) * vel, rand(0.006, 0.011));
-  this.tick(when + rand(0.001, 0.005), pan, space ? rand(380, 560) : rand(850, 1500), 1.6, (space ? 0.26 : rand(0.13, 0.2)) * vel, space ? 0.065 : rand(0.025, 0.042));
-}
+    // one mechanical key: a sharp click on top of a short "thock" (deeper for space)
+    clack(when, pan, space, vel = 1) {
+      this.tick(when, pan, rand(3600, 5600), 2.2, rand(0.2, 0.3) * vel, rand(0.006, 0.011));
+      this.tick(when + rand(0.001, 0.005), pan, space ? rand(380, 560) : rand(850, 1500), 1.6, (space ? 0.26 : rand(0.13, 0.2)) * vel, space ? 0.065 : rand(0.025, 0.042));
+    }
 
-key(x, vw, id, n = 1, space = 0) {
-  this.log("key", [x, vw, id, n, space]);
-  if (!this.ready()) return;
-  const t = this.now();
-  if (t - (this.lastKey.get(id) || -1) < 0.024) return;
-  this.keyTimes = this.keyTimes.filter((k) => t - k < 1);
-  if (this.keyTimes.length > 80) return;
-  this.lastKey.set(id, t);
-  const pan = this.pan(x, vw);
-  // a burst of characters in one frame becomes a quick roll of keys
-  let at = t + 0.004;
-  for (let k = 0; k < Math.min(n, 3) && this.keyTimes.length <= 80; k++) {
-    this.keyTimes.push(t);
-    this.clack(at, pan, space && k === 0, rand(0.75, 1));
-    at += rand(0.018, 0.032);
-  }
-}
-
-// a mouse button: press click, then a lighter release
-press(x, vw) {
-  this.log("press", [x, vw]);
-  if (!this.ready()) return;
-  const t = this.now();
-  this.pressTimes = this.pressTimes.filter((k) => t - k < 1);
-  if (this.pressTimes.length > 40) return;
-  this.pressTimes.push(t);
-  const pan = this.pan(x, vw);
-  this.tick(t + 0.004, pan, rand(2100, 2700), 4, 0.32, 0.012);
-  this.tick(t + 0.005, pan, rand(650, 850), 2, 0.16, 0.022);
-  this.tick(t + rand(0.055, 0.075), pan, rand(2900, 3400), 4, 0.15, 0.008);
-}
-
-// a finished element: rect, image, text, line, dup, guide, edit, restyle
-place(kind, x, y, w, h, vw, vh, fs) {
-  this.log("place", [kind, x, y, w, h, vw, vh, fs]);
-  if (!this.ready()) return;
-  // only boxes, media, duplicates and guides sing; text and lines stay percussive
-  if (kind === "text" || kind === "edit" || kind === "line") return;
-  const area = (w * h) / Math.max(1, vw * vh);
-  let oct;
-  if (kind === "text") oct = fs >= 40 ? 2 : fs >= 22 ? 3 : 4;
-  else if (kind === "guide") oct = 5;
-  else oct = area > 0.08 ? 1 : area > 0.015 ? 2 : area > 0.002 ? 3 : 4;
-  const deg = Math.floor(clamp(x / Math.max(1, vw), 0, 0.999) * 5);
-  const midi = E2 + oct * 12 + PENTA[deg];
-  const { when, slot } = this.grid(2);
-  const seen = this.slots.get(slot) || [];
-  if (seen.length >= 1) return;
-  seen.push(midi);
-  this.slots.set(slot, seen);
-  if (this.slots.size > 64) this.slots.delete(this.slots.keys().next().value);
-  const off = y < -40 || y > vh + 40 ? 0.45 : 1;
-  const pan = this.pan(x, vw);
-  const vel = ({ rect: 0.55, image: 0.5, dup: 0.5, guide: 0.3, restyle: 0.34 }[kind] || 0.4) * 0.42;
-  const ring = oct <= 1 ? 3.6 : oct >= 4 ? 1.6 : 2.4;
-  this.piano(midi, when, vel * off, pan, ring);
-  if (kind === "image") this.piano(midi + (PENTA[(deg + 2) % 5] - PENTA[deg] + 12) % 12, when + 0.04, vel * 0.6 * off, pan, ring);
-  if (kind === "dup") this.piano(E2 + 12 + (deg % 2 ? 7 : 0), when, 0.15 * off, pan * 0.5, 2.8);
-}
-
-// headings stepping up in size: a little rising run
-grow(step, x, vw) {
-  this.log("grow", [step, x, vw]);
-  if (!this.ready()) return;
-  const t = this.now() + 0.004;
-  this.tick(t, this.pan(x, vw), 2400 + step * 260, 5, 0.12, 0.01);
-}
-
-snap(x, vw) {
-  this.log("snap", [x, vw]);
-  if (!this.ready()) return;
-  const t = this.now() + 0.004;
-  const pan = this.pan(x, vw);
-  this.tick(t, pan, 4800, 3, 0.36, 0.012);
-  this.tick(t + 0.002, pan, 1200, 2, 0.2, 0.03);
-}
-
-// the page dissolving: an airy swell over a low open fifth
-intro() {
-  this.log("intro", []);
-  if (!this.ready()) return;
-  const ctx = this.ctx;
-  const t = this.now() + 0.02;
-  const src = ctx.createBufferSource();
-  src.buffer = this.noiseBuf;
-  src.loop = true;
-  const bp = ctx.createBiquadFilter();
-  bp.type = "bandpass";
-  bp.Q.value = 0.8;
-  bp.frequency.setValueAtTime(260, t);
-  bp.frequency.exponentialRampToValueAtTime(2400, t + 0.9);
-  bp.frequency.exponentialRampToValueAtTime(900, t + 1.8);
-  const g = this.bus(t, 0, 0.6);
-  g.gain.setValueAtTime(0, t);
-  g.gain.linearRampToValueAtTime(0.16, t + 0.7);
-  g.gain.exponentialRampToValueAtTime(0.0005, t + 2.2);
-  src.connect(bp);
-  bp.connect(g);
-  src.start(t);
-  src.stop(t + 2.3);
-  src.onended = () => g.disconnect();
-  for (const [m, d] of [[E2, 0], [E2 + 7, 0.08], [E2 + 12, 0.16]]) this.pad(m, t + 0.3 + d, 0.07, 2.6);
-}
-
-pad(midi, when, vel, len) {
-  const ctx = this.ctx;
-  const g = this.bus(when, 0, 0.9);
-  g.gain.setValueAtTime(0, when);
-  g.gain.linearRampToValueAtTime(vel, when + len * 0.4);
-  g.gain.exponentialRampToValueAtTime(0.0005, when + len);
-  for (const det of [-4, 4]) {
-    const o = ctx.createOscillator();
-    o.type = "triangle";
-    o.frequency.value = mtof(midi);
-    o.detune.value = det;
-    o.connect(g);
-    o.start(when);
-    o.stop(when + len + 0.05);
-  }
-}
-
-// the swarm fans out: E G# B E arpeggio on the grid
-start() {
-  this.log("start", []);
-  if (!this.ready()) return;
-  const { when } = this.grid(4);
-  const step = 60 / this.bpm / 4;
-  [E2 + 24, E2 + 28, E2 + 31, E2 + 36, E2 + 40].forEach((m, i) => this.piano(m, when + i * step, 0.2, -0.5 + i * 0.25, 2));
-}
-
-// the last chord rings: E major add9, strummed
-finale() {
-  this.log("finale", []);
-  if (!this.ready()) return;
-  const { when } = this.grid(2);
-  const chord = [E2, E2 + 7, E2 + 12, E2 + 16, E2 + 19, E2 + 26, E2 + 28, E2 + 31, E2 + 36, E2 + 43];
-  chord.forEach((m, i) => this.piano(m, when + i * 0.035, 0.34 - i * 0.015, -0.6 + (i / chord.length) * 1.2, 5.5));
-  this.pad(E2 + 12, when, 0.05, 5);
-}
-
-// back to the real page: a falling sweep
-release() {
-  this.log("release", []);
-  if (!this.ready()) return;
-  const ctx = this.ctx;
-  const t = this.now() + 0.01;
-  const src = ctx.createBufferSource();
-  src.buffer = this.noiseBuf;
-  src.loop = true;
-  const bp = ctx.createBiquadFilter();
-  bp.type = "bandpass";
-  bp.Q.value = 1;
-  bp.frequency.setValueAtTime(3000, t);
-  bp.frequency.exponentialRampToValueAtTime(220, t + 1);
-  const g = this.bus(t, 0, 0.5);
-  g.gain.setValueAtTime(0.12, t);
-  g.gain.exponentialRampToValueAtTime(0.0005, t + 1.1);
-  src.connect(bp);
-  bp.connect(g);
-  src.start(t);
-  src.stop(t + 1.2);
-  this.piano(E2 + 12, t + 0.05, 0.3, 0, 2.5);
-}
-
-close(after = 0) {
-  if (!this.ctx || this.fakeNow != null) return;
-  const ctx = this.ctx;
-  const t = ctx.currentTime;
-  this.out.gain.cancelScheduledValues(t);
-  this.out.gain.setValueAtTime(this.out.gain.value, t);
-  this.out.gain.linearRampToValueAtTime(0, t + Math.max(0.05, after));
-  setTimeout(() => ctx.close().catch(() => { }), (after + 0.2) * 1000);
-}
-  }
-
-// -------------------------------------------------------------------- app
-
-class App {
-  constructor() {
-    this.dead = false;
-    this.t0 = performance.now();
-    this.tour = false;
-    this.tourV = 0;
-    this.tourAcc = 0;
-    this.speeds = [1, 2, 3];
-    this.speedIx = 0;
-    this.complete = false;
-    this.timing = {};
-    this.hudHidden = false;
-  }
-
-  setHudHidden(hidden) {
-    this.hudHidden = hidden;
-    // see pointermove: not armed if the pointer is already in the bottom strip (e.g. it just clicked Hide)
-    const m = this.engine && this.engine.mouse;
-    this.pillArmed = !(m && m.y >= window.innerHeight - 44);
-    if (this.view) {
-      this.view.hud.classList.toggle("hidden", hidden);
-      if (this.view.unhideBtn) {
-        this.view.unhideBtn.classList.remove("visible");
+    key(x, vw, id, n = 1, space = 0) {
+      this.log("key", [x, vw, id, n, space]);
+      if (!this.ready()) return;
+      const t = this.now();
+      if (t - (this.lastKey.get(id) || -1) < 0.024) return;
+      this.keyTimes = this.keyTimes.filter((k) => t - k < 1);
+      if (this.keyTimes.length > 80) return;
+      this.lastKey.set(id, t);
+      const pan = this.pan(x, vw);
+      // a burst of characters in one frame becomes a quick roll of keys
+      let at = t + 0.004;
+      for (let k = 0; k < Math.min(n, 3) && this.keyTimes.length <= 80; k++) {
+        this.keyTimes.push(t);
+        this.clack(at, pan, space && k === 0, rand(0.75, 1));
+        at += rand(0.018, 0.032);
       }
     }
-  }
 
-  toggleHud() {
-    this.setHudHidden(!this.hudHidden);
-  }
-
-  async loadShot() {
-    let src = window.__swarmShot;
-    window.__swarmShot = null;
-    if (src) lastShot = { src, at: this.env.geom() };
-    else if (lastShot) src = lastShot.src; // Replay reuses the click-time screenshot
-    if (!src) return null;
-    const img = new Image();
-    img.src = src;
-    try {
-      await img.decode();
-    } catch (_) {
-      return null;
+    // a mouse button: press click, then a lighter release
+    press(x, vw) {
+      this.log("press", [x, vw]);
+      if (!this.ready()) return;
+      const t = this.now();
+      this.pressTimes = this.pressTimes.filter((k) => t - k < 1);
+      if (this.pressTimes.length > 40) return;
+      this.pressTimes.push(t);
+      const pan = this.pan(x, vw);
+      this.tick(t + 0.004, pan, rand(2100, 2700), 4, 0.32, 0.012);
+      this.tick(t + 0.005, pan, rand(650, 850), 2, 0.16, 0.022);
+      this.tick(t + rand(0.055, 0.075), pan, rand(2900, 3400), 4, 0.15, 0.008);
     }
-    const g = lastShot && lastShot.src === src ? lastShot.at : this.env.geom();
-    return { img, sx: g.sx, sy: g.sy, scale: img.naturalWidth / innerWidth, valid: false };
+
+    // a finished element: rect, image, text, line, dup, guide, edit, restyle
+    place(kind, x, y, w, h, vw, vh, fs) {
+      this.log("place", [kind, x, y, w, h, vw, vh, fs]);
+      if (!this.ready()) return;
+      // only boxes, media, duplicates and guides sing; text and lines stay percussive
+      if (kind === "text" || kind === "edit" || kind === "line") return;
+      const area = (w * h) / Math.max(1, vw * vh);
+      let oct;
+      if (kind === "text") oct = fs >= 40 ? 2 : fs >= 22 ? 3 : 4;
+      else if (kind === "guide") oct = 5;
+      else oct = area > 0.08 ? 1 : area > 0.015 ? 2 : area > 0.002 ? 3 : 4;
+      const deg = Math.floor(clamp(x / Math.max(1, vw), 0, 0.999) * 5);
+      const midi = E2 + oct * 12 + PENTA[deg];
+      const { when, slot } = this.grid(2);
+      const seen = this.slots.get(slot) || [];
+      if (seen.length >= 1) return;
+      seen.push(midi);
+      this.slots.set(slot, seen);
+      if (this.slots.size > 64) this.slots.delete(this.slots.keys().next().value);
+      const off = y < -40 || y > vh + 40 ? 0.45 : 1;
+      const pan = this.pan(x, vw);
+      const vel = ({ rect: 0.55, image: 0.5, dup: 0.5, guide: 0.3, restyle: 0.34 }[kind] || 0.4) * 0.42;
+      const ring = oct <= 1 ? 3.6 : oct >= 4 ? 1.6 : 2.4;
+      this.piano(midi, when, vel * off, pan, ring);
+      if (kind === "image") this.piano(midi + (PENTA[(deg + 2) % 5] - PENTA[deg] + 12) % 12, when + 0.04, vel * 0.6 * off, pan, ring);
+      if (kind === "dup") this.piano(E2 + 12 + (deg % 2 ? 7 : 0), when, 0.15 * off, pan * 0.5, 2.8);
+    }
+
+    // headings stepping up in size: a little rising run
+    grow(step, x, vw) {
+      this.log("grow", [step, x, vw]);
+      if (!this.ready()) return;
+      const t = this.now() + 0.004;
+      this.tick(t, this.pan(x, vw), 2400 + step * 260, 5, 0.12, 0.01);
+    }
+
+    snap(x, vw) {
+      this.log("snap", [x, vw]);
+      if (!this.ready()) return;
+      const t = this.now() + 0.004;
+      const pan = this.pan(x, vw);
+      this.tick(t, pan, 4800, 3, 0.36, 0.012);
+      this.tick(t + 0.002, pan, 1200, 2, 0.2, 0.03);
+    }
+
+    // the page dissolving: an airy swell over a low open fifth
+    intro() {
+      this.log("intro", []);
+      if (!this.ready()) return;
+      const ctx = this.ctx;
+      const t = this.now() + 0.02;
+      const src = ctx.createBufferSource();
+      src.buffer = this.noiseBuf;
+      src.loop = true;
+      const bp = ctx.createBiquadFilter();
+      bp.type = "bandpass";
+      bp.Q.value = 0.8;
+      bp.frequency.setValueAtTime(260, t);
+      bp.frequency.exponentialRampToValueAtTime(2400, t + 0.9);
+      bp.frequency.exponentialRampToValueAtTime(900, t + 1.8);
+      const g = this.bus(t, 0, 0.6);
+      g.gain.setValueAtTime(0, t);
+      g.gain.linearRampToValueAtTime(0.16, t + 0.7);
+      g.gain.exponentialRampToValueAtTime(0.0005, t + 2.2);
+      src.connect(bp);
+      bp.connect(g);
+      src.start(t);
+      src.stop(t + 2.3);
+      src.onended = () => g.disconnect();
+      for (const [m, d] of [[E2, 0], [E2 + 7, 0.08], [E2 + 12, 0.16]]) this.pad(m, t + 0.3 + d, 0.07, 2.6);
+    }
+
+    pad(midi, when, vel, len) {
+      const ctx = this.ctx;
+      const g = this.bus(when, 0, 0.9);
+      g.gain.setValueAtTime(0, when);
+      g.gain.linearRampToValueAtTime(vel, when + len * 0.4);
+      g.gain.exponentialRampToValueAtTime(0.0005, when + len);
+      for (const det of [-4, 4]) {
+        const o = ctx.createOscillator();
+        o.type = "triangle";
+        o.frequency.value = mtof(midi);
+        o.detune.value = det;
+        o.connect(g);
+        o.start(when);
+        o.stop(when + len + 0.05);
+      }
+    }
+
+    // the swarm fans out: E G# B E arpeggio on the grid
+    start() {
+      this.log("start", []);
+      if (!this.ready()) return;
+      const { when } = this.grid(4);
+      const step = 60 / this.bpm / 4;
+      [E2 + 24, E2 + 28, E2 + 31, E2 + 36, E2 + 40].forEach((m, i) => this.piano(m, when + i * step, 0.2, -0.5 + i * 0.25, 2));
+    }
+
+    // the last chord rings: E major add9, strummed
+    finale() {
+      this.log("finale", []);
+      if (!this.ready()) return;
+      const { when } = this.grid(2);
+      const chord = [E2, E2 + 7, E2 + 12, E2 + 16, E2 + 19, E2 + 26, E2 + 28, E2 + 31, E2 + 36, E2 + 43];
+      chord.forEach((m, i) => this.piano(m, when + i * 0.035, 0.34 - i * 0.015, -0.6 + (i / chord.length) * 1.2, 5.5));
+      this.pad(E2 + 12, when, 0.05, 5);
+    }
+
+    // back to the real page: a falling sweep
+    release() {
+      this.log("release", []);
+      if (!this.ready()) return;
+      const ctx = this.ctx;
+      const t = this.now() + 0.01;
+      const src = ctx.createBufferSource();
+      src.buffer = this.noiseBuf;
+      src.loop = true;
+      const bp = ctx.createBiquadFilter();
+      bp.type = "bandpass";
+      bp.Q.value = 1;
+      bp.frequency.setValueAtTime(3000, t);
+      bp.frequency.exponentialRampToValueAtTime(220, t + 1);
+      const g = this.bus(t, 0, 0.5);
+      g.gain.setValueAtTime(0.12, t);
+      g.gain.exponentialRampToValueAtTime(0.0005, t + 1.1);
+      src.connect(bp);
+      bp.connect(g);
+      src.start(t);
+      src.stop(t + 1.2);
+      this.piano(E2 + 12, t + 0.05, 0.3, 0, 2.5);
+    }
+
+    close(after = 0) {
+      if (!this.ctx || this.fakeNow != null) return;
+      const ctx = this.ctx;
+      const t = ctx.currentTime;
+      this.out.gain.cancelScheduledValues(t);
+      this.out.gain.setValueAtTime(this.out.gain.value, t);
+      this.out.gain.linearRampToValueAtTime(0, t + Math.max(0.05, after));
+      setTimeout(() => ctx.close().catch(() => {}), (after + 0.2) * 1000);
+    }
   }
 
-  async run() {
-    this.env = detectEnv();
-    const shotP = this.loadShot();
-    this.view = new View(this.env);
-    this.engine = new Engine(this.view);
-    this.sfx = new Sound();
-    this.sfx.init();
-    this.engine.sfx = this.sfx;
-    this.engine.onStart = () => this.view.intro.classList.add("gone");
-    this.engine.onComplete = () => this.onComplete();
-    this.bind();
-    this.last = performance.now();
-    this.raf = requestAnimationFrame((t) => this.frame(t));
-    await nextFrame();
-    this.renderSoundBtn();
-    this.sfx.intro();
-    this.view.bg.classList.add("on");
-    this.view.intro.classList.add("on");
-    this.view.hud.classList.add("on");
-    const mark = (k) => (this.timing[k] = Math.round(performance.now() - this.t0));
-    await sleep(520);
-    await unhidePage();
-    mark("blank");
-    if (this.dead) return;
-    await this.scan();
-    mark("scan");
-    if (this.dead) return;
-    try {
-      await Promise.race([document.fonts.ready, sleep(1200)]);
-    } catch (_) { }
-    mark("fonts");
-    this.view.measure();
-    const shot = await shotP;
-    if (shot) {
-      const g = this.env.geom();
-      shot.valid = Math.abs(g.sx - shot.sx) < 1 && Math.abs(g.sy - shot.sy) < 1;
-    }
-    let model;
-    try {
-      model = captureModel(this.env, shot);
-    } catch (err) {
-      console.error("[swarm-rebuild] capture failed", err);
-      model = { items: [], tasks: [], groups: [], guides: [], docW: 0, docH: 0 };
-    }
-    mark("capture");
-    if (this.dead) return;
-    this.view.mount(model);
-    this.engine.setModel(model);
-    this.model = model;
-    mark("mount");
-    const wait = 1500 - (performance.now() - this.t0);
-    if (wait > 0) await sleep(wait);
-    if (this.dead) return;
-    this.engine.start();
-  }
+  // -------------------------------------------------------------------- app
 
-  async scan() {
-    const env = this.env;
-    const g = env.geom();
-    const H = env.scrollHeight();
-    if (H <= g.vh * 1.25) return;
-    this.view.frozen = { ...this.view.vp };
-    const steps = Math.min(28, Math.ceil(H / (g.vh * 0.85)));
-    for (let i = 1; i <= steps && !this.dead; i++) {
-      env.scrollTo(Math.min(H, (H / steps) * i));
+  class App {
+    constructor() {
+      this.dead = false;
+      this.t0 = performance.now();
+      this.tour = false;
+      this.tourV = 0;
+      this.tourAcc = 0;
+      this.speeds = [1, 2, 3];
+      this.speedIx = 0;
+      this.complete = false;
+      this.timing = {};
+      this.hudHidden = false;
+    }
+
+    setHudHidden(hidden) {
+      this.hudHidden = hidden;
+      // see pointermove: not armed if the pointer is already in the bottom strip (e.g. it just clicked Hide)
+      const m = this.engine && this.engine.mouse;
+      this.pillArmed = !(m && m.y >= window.innerHeight - 44);
+      if (this.view) {
+        this.view.hud.classList.toggle("hidden", hidden);
+        if (this.view.unhideBtn) {
+          this.view.unhideBtn.classList.remove("visible");
+        }
+      }
+    }
+
+    toggleHud() {
+      this.setHudHidden(!this.hudHidden);
+    }
+
+    async loadShot() {
+      let src = window.__swarmShot;
+      window.__swarmShot = null;
+      if (src) lastShot = { src, at: this.env.geom() };
+      else if (lastShot) src = lastShot.src; // Replay reuses the click-time screenshot
+      if (!src) return null;
+      const img = new Image();
+      img.src = src;
+      try {
+        await img.decode();
+      } catch (_) {
+        return null;
+      }
+      const g = lastShot && lastShot.src === src ? lastShot.at : this.env.geom();
+      return { img, sx: g.sx, sy: g.sy, scale: img.naturalWidth / innerWidth, valid: false };
+    }
+
+    async run() {
+      this.env = detectEnv();
+      const shotP = this.loadShot();
+      this.view = new View(this.env);
+      this.engine = new Engine(this.view);
+      this.sfx = new Sound();
+      this.sfx.init();
+      this.engine.sfx = this.sfx;
+      this.engine.onStart = () => this.view.intro.classList.add("gone");
+      this.engine.onComplete = () => this.onComplete();
+      this.bind();
+      this.last = performance.now();
+      this.raf = requestAnimationFrame((t) => this.frame(t));
       await nextFrame();
-      await sleep(30);
-    }
-    env.scrollTo(g.sy, g.sx);
-    await nextFrame();
-    await sleep(750);
-    env.scrollTo(g.sy, g.sx);
-    this.view.frozen = null;
-  }
-
-  bind() {
-    const on = (t, ev, fn, o) => {
-      t.addEventListener(ev, fn, o);
-      (this.unbinds || (this.unbinds = [])).push(() => t.removeEventListener(ev, fn, o));
-    };
-    const scrollTarget = this.env.isRoot ? window : this.env.scroller;
-    on(scrollTarget, "scroll", () => {
-      if (!this.view.frozen) this.view.syncWorld();
-    }, { passive: true });
-    on(window, "resize", () => this.view.measure());
-    on(window, "wheel", () => {
-      if (this.engine.ready) this.engine.start();
-    }, { passive: true });
-    on(window, "pointermove", (e) => {
-      this.engine.mouse = { x: e.clientX, y: e.clientY };
-      if (this.hudHidden && this.view.unhideBtn) {
-        // The strip overlaps where the toolbar was, so wait until the pointer has left it once:
-        // otherwise clicking Hide puts "Show controls" right back under the cursor.
-        const nearBottom = e.clientY >= window.innerHeight - 44;
-        if (!nearBottom) this.pillArmed = true;
-        this.view.unhideBtn.classList.toggle("visible", nearBottom && this.pillArmed);
+      this.renderSoundBtn();
+      this.sfx.intro();
+      this.view.bg.classList.add("on");
+      this.view.intro.classList.add("on");
+      this.view.hud.classList.add("on");
+      const mark = (k) => (this.timing[k] = Math.round(performance.now() - this.t0));
+      await sleep(520);
+      await unhidePage();
+      mark("blank");
+      if (this.dead) return;
+      await this.scan();
+      mark("scan");
+      if (this.dead) return;
+      try {
+        await Promise.race([document.fonts.ready, sleep(1200)]);
+      } catch (_) {}
+      mark("fonts");
+      this.view.measure();
+      const shot = await shotP;
+      if (shot) {
+        const g = this.env.geom();
+        shot.valid = Math.abs(g.sx - shot.sx) < 1 && Math.abs(g.sy - shot.sy) < 1;
       }
-    }, { passive: true });
-    on(document.documentElement, "pointerleave", () => {
-      this.engine.mouse = null;
-      if (this.view.unhideBtn) this.view.unhideBtn.classList.remove("visible");
-    });
-    on(window, "keydown", (e) => {
-      if (e.key === "Escape") {
-        e.stopPropagation();
-        stop(false);
-      } else if ((e.key === "m" || e.key === "M") && !e.metaKey && !e.ctrlKey && !e.altKey) {
-        // ours while the swarm covers the page: don't also type into a field the page had focused
-        e.preventDefault();
-        e.stopPropagation();
-        if (!e.repeat) {
-          this.sfx.setOn(!this.sfx.on);
+      let model;
+      try {
+        model = captureModel(this.env, shot);
+      } catch (err) {
+        console.error("[swarm-rebuild] capture failed", err);
+        model = { items: [], tasks: [], groups: [], guides: [], docW: 0, docH: 0 };
+      }
+      mark("capture");
+      if (this.dead) return;
+      this.view.mount(model);
+      this.engine.setModel(model);
+      this.model = model;
+      mark("mount");
+      const wait = 1500 - (performance.now() - this.t0);
+      if (wait > 0) await sleep(wait);
+      if (this.dead) return;
+      this.engine.start();
+    }
+
+    async scan() {
+      const env = this.env;
+      const g = env.geom();
+      const H = env.scrollHeight();
+      if (H <= g.vh * 1.25) return;
+      this.view.frozen = { ...this.view.vp };
+      const steps = Math.min(28, Math.ceil(H / (g.vh * 0.85)));
+      for (let i = 1; i <= steps && !this.dead; i++) {
+        env.scrollTo(Math.min(H, (H / steps) * i));
+        await nextFrame();
+        await sleep(30);
+      }
+      env.scrollTo(g.sy, g.sx);
+      await nextFrame();
+      await sleep(750);
+      env.scrollTo(g.sy, g.sx);
+      this.view.frozen = null;
+    }
+
+    bind() {
+      const on = (t, ev, fn, o) => {
+        t.addEventListener(ev, fn, o);
+        (this.unbinds || (this.unbinds = [])).push(() => t.removeEventListener(ev, fn, o));
+      };
+      const scrollTarget = this.env.isRoot ? window : this.env.scroller;
+      on(scrollTarget, "scroll", () => {
+        if (!this.view.frozen) this.view.syncWorld();
+      }, { passive: true });
+      on(window, "resize", () => this.view.measure());
+      on(window, "wheel", () => {
+        if (this.engine.ready) this.engine.start();
+      }, { passive: true });
+      on(window, "pointermove", (e) => {
+        this.engine.mouse = { x: e.clientX, y: e.clientY };
+        if (this.hudHidden && this.view.unhideBtn) {
+          // The strip overlaps where the toolbar was, so wait until the pointer has left it once:
+          // otherwise clicking Hide puts "Show controls" right back under the cursor.
+          const nearBottom = e.clientY >= window.innerHeight - 44;
+          if (!nearBottom) this.pillArmed = true;
+          this.view.unhideBtn.classList.toggle("visible", nearBottom && this.pillArmed);
+        }
+      }, { passive: true });
+      on(document.documentElement, "pointerleave", () => {
+        this.engine.mouse = null;
+        if (this.view.unhideBtn) this.view.unhideBtn.classList.remove("visible");
+      });
+      on(window, "keydown", (e) => {
+        if (e.key === "Escape") {
+          e.stopPropagation();
+          stop(false);
+        } else if ((e.key === "m" || e.key === "M") && !e.metaKey && !e.ctrlKey && !e.altKey) {
+          // ours while the swarm covers the page: don't also type into a field the page had focused
+          e.preventDefault();
+          e.stopPropagation();
+          if (!e.repeat) {
+            this.sfx.setOn(!this.sfx.on);
+            this.renderSoundBtn();
+          }
+        } else if ((e.key === "h" || e.key === "H") && !e.metaKey && !e.ctrlKey && !e.altKey) {
+          e.preventDefault();
+          e.stopPropagation();
+          if (!e.repeat) this.toggleHud(); // holding H mustn't flicker it
+        }
+        this.unlockSound();
+      }, true);
+      // browsers only let audio start after a click/keypress on the page
+      on(window, "pointerdown", () => this.unlockSound(), true);
+      if (!this.env.isRoot) {
+        on(this.view.host, "wheel", (e) => {
+          e.preventDefault();
+          this.env.scroller.scrollBy({ top: e.deltaY, left: e.deltaX, behavior: "instant" });
+        }, { passive: false });
+      }
+      if (this.view.unhideBtn) {
+        on(this.view.unhideBtn, "click", () => this.setHudHidden(false));
+      }
+      on(this.view.hud, "click", (e) => {
+        const b = e.target.closest("button");
+        if (!b) return;
+        const a = b.dataset.a;
+        if (a === "close") stop(false);
+        else if (a === "live") stop(true);
+        else if (a === "replay") restart();
+        else if (a === "hide") this.setHudHidden(true);
+        else if (a === "tour") {
+          this.tour = !this.tour;
+          b.classList.toggle("on", this.tour);
+          b.textContent = this.tour ? "Touring" : "Tour";
+          if (this.tour) this.engine.start();
+        } else if (a === "sound") {
+          if (this.sfx.on && this.sfx.blocked) this.sfx.resume();
+          else this.sfx.setOn(!this.sfx.on);
+          setTimeout(() => this.renderSoundBtn(), 60);
+        } else if (a === "speed") {
+          this.speedIx = (this.speedIx + 1) % this.speeds.length;
+          this.engine.speed = this.speeds[this.speedIx];
+          b.textContent = this.speeds[this.speedIx] + "×";
+        }
+      });
+    }
+
+    unlockSound() {
+      if (this.dead || !this.sfx || !this.sfx.blocked) return;
+      this.sfx.resume();
+      setTimeout(() => this.renderSoundBtn(), 80);
+    }
+
+    renderSoundBtn() {
+      const b = this.view.root.querySelector('[data-a="sound"]');
+      if (!b || !this.sfx) return;
+      const tap = this.sfx.on && this.sfx.blocked;
+      const key = this.sfx.on ? (tap ? "tap" : "on") : "off";
+      if (b._k === key) return;
+      b._k = key;
+      b.classList.toggle("off", key === "off");
+      b.classList.toggle("tap", tap);
+      const waves = '<path d="M11 5.5a3.5 3.5 0 0 1 0 5M12.8 3.6a6 6 0 0 1 0 8.8"/>';
+      const mute = '<path d="M11 6l4 4M15 6l-4 4"/>';
+      b.innerHTML = `${SPK_ICON}${key === "off" ? mute : waves}</svg>${tap ? "<span>Tap for sound</span>" : ""}`;
+      b.title = key === "off" ? "Sound off (M)" : "Sound on (M)";
+    }
+
+    frame(now) {
+      if (this.dead) return;
+      const dt = Math.min(0.05, (now - this.last) / 1000);
+      this.last = now;
+      try {
+        this.engine.step(dt);
+        if (this.tour) this.tourStep(dt);
+        this.view.render(this.engine);
+        if (!this._hudT || now - this._hudT > 200) {
+          this._hudT = now;
+          this.updateHud();
           this.renderSoundBtn();
         }
-      } else if ((e.key === "h" || e.key === "H") && !e.metaKey && !e.ctrlKey && !e.altKey) {
-        e.preventDefault();
-        e.stopPropagation();
-        if (!e.repeat) this.toggleHud(); // holding H mustn't flicker it
+      } catch (err) {
+        console.error("[swarm-rebuild]", err);
       }
-      this.unlockSound();
-    }, true);
-    // browsers only let audio start after a click/keypress on the page
-    on(window, "pointerdown", () => this.unlockSound(), true);
-    if (!this.env.isRoot) {
-      on(this.view.host, "wheel", (e) => {
-        e.preventDefault();
-        this.env.scroller.scrollBy({ top: e.deltaY, left: e.deltaX, behavior: "instant" });
-      }, { passive: false });
+      this.raf = requestAnimationFrame((t) => this.frame(t));
     }
-    if (this.view.unhideBtn) {
-      on(this.view.unhideBtn, "click", () => this.setHudHidden(false));
-    }
-    on(this.view.hud, "click", (e) => {
-      const b = e.target.closest("button");
-      if (!b) return;
-      const a = b.dataset.a;
-      if (a === "close") stop(false);
-      else if (a === "live") stop(true);
-      else if (a === "replay") restart();
-      else if (a === "hide") this.setHudHidden(true);
-      else if (a === "tour") {
-        this.tour = !this.tour;
-        b.classList.toggle("on", this.tour);
-        b.textContent = this.tour ? "Touring" : "Tour";
-        if (this.tour) this.engine.start();
-      } else if (a === "sound") {
-        if (this.sfx.on && this.sfx.blocked) this.sfx.resume();
-        else this.sfx.setOn(!this.sfx.on);
-        setTimeout(() => this.renderSoundBtn(), 60);
-      } else if (a === "speed") {
-        this.speedIx = (this.speedIx + 1) % this.speeds.length;
-        this.engine.speed = this.speeds[this.speedIx];
-        b.textContent = this.speeds[this.speedIx] + "×";
+
+    tourStep(dt) {
+      const E = this.engine;
+      if (!E.started) return;
+      const g = this.env.geom();
+      const maxY = this.env.scrollHeight() - g.vh;
+      if (g.sy >= maxY - 1) {
+        this.tourV = 0;
+        return;
       }
+      const crew = Math.max(MIN_AGENTS, E.cursors.filter((c) => !c.leaving).length);
+      const backlog = E.backlog();
+      const target = backlog <= Math.max(4, crew * 0.6) ? 230 : backlog <= crew * 1.5 ? 80 : 0;
+      this.tourV += (target - this.tourV) * Math.min(1, dt * 2.5);
+      this.tourAcc += this.tourV * dt;
+      if (this.tourAcc >= 1) {
+        const d = Math.floor(this.tourAcc);
+        this.tourAcc -= d;
+        this.env.scrollBy(d);
+      }
+    }
+
+    updateHud() {
+      const E = this.engine;
+      const v = this.view;
+      if (!E.ready) return;
+      const workers = E.cursors.filter((c) => c.worked).length + E.retired;
+      const total = E.tasks.length;
+      const done = E.doneCount;
+      if (this.complete) return;
+      if (!E.started) v.status.innerHTML = `<b>${E.cursors.length}</b> agents ready<span class="sep"></span>${total.toLocaleString()} layers`;
+      else {
+        const pend = E.tasks.length - done;
+        const below = E.tasks.some((t) => t.state === "wait" && t.layer === "world" && t.gate > E.frontier);
+        v.status.innerHTML =
+          `<b>${workers}</b> agents<span class="sep"></span><b>${done.toLocaleString()}</b> / ${total.toLocaleString()} layers` +
+          (below && pend && !this.tour && E.backlog() === 0 ? `<span class="sep"></span>scroll to keep building` : "");
+      }
+      v.barFill.style.width = total ? `${(done / total) * 100}%` : "0%";
+      const busy = E.cursors.filter((c) => c.task).slice(-5);
+      const key = busy.map((c) => c.id).join(",");
+      if (key !== this._dots) {
+        this._dots = key;
+        v.dots.innerHTML = busy.map((c) => `<i style="background:${c.color}" title="${c.name}">${c.name[0]}</i>`).join("");
+      }
+    }
+
+    onComplete() {
+      this.complete = true;
+      // a hidden toolbar stays hidden so the end of a recording stays clean (H or the bottom edge brings it back)
+      if (this.sfx) this.sfx.finale();
+      const E = this.engine;
+      const v = this.view;
+      const workers = E.cursors.filter((c) => c.worked).length + E.retired;
+      const secs = (E.endTime - E.startTime).toFixed(1);
+      v.status.innerHTML = `Rebuilt by <b>${workers}</b> agents in <b>${secs}s</b>`;
+      v.barFill.style.width = "100%";
+      v.dots.innerHTML = "";
+      v.root.querySelector('[data-a="live"]').hidden = false;
+      v.root.querySelector('[data-a="replay"]').hidden = false;
+      v.root.querySelector('[data-a="tour"]').hidden = true;
+      v.root.querySelector('[data-a="speed"]').hidden = true;
+      this.tour = false;
+    }
+
+    destroy(reveal) {
+      unhidePage();
+      if (this.sfx) {
+        if (reveal) this.sfx.release();
+        this.sfx.close(reveal ? 1.4 : 0.25);
+      }
+      if (!this.view) {
+        // startup failed before the overlay existed
+        this.dead = true;
+        cancelAnimationFrame(this.raf);
+        return;
+      }
+      const finish = () => {
+        this.dead = true;
+        cancelAnimationFrame(this.raf);
+        for (const u of this.unbinds || []) u();
+        this.view.host.remove();
+      };
+      if (reveal) {
+        this.engine.releasing = true;
+        this.engine.flocking = true;
+        for (const c of this.engine.cursors) {
+          c.gen = null;
+          c.follow = false;
+        }
+        this.view.hud.classList.remove("on");
+        setTimeout(() => {
+          this.view.host.style.setProperty("opacity", "0", "important");
+        }, 450);
+        setTimeout(finish, 1150);
+      } else {
+        this.view.host.style.setProperty("transition", "opacity .25s ease", "important");
+        this.view.host.style.setProperty("opacity", "0", "important");
+        this.dead = true;
+        cancelAnimationFrame(this.raf);
+        for (const u of this.unbinds || []) u();
+        setTimeout(() => this.view.host.remove(), 260);
+      }
+    }
+  }
+
+  // background.js may have hidden everything but media for its screenshot;
+  // put the page back once our canvas covers it (or if we bail out early).
+  async function unhidePage() {
+    if (!window.__swarmHidden) return;
+    window.__swarmHidden = false;
+    try {
+      if (typeof chrome !== "undefined" && chrome.runtime && chrome.runtime.sendMessage) await chrome.runtime.sendMessage({ type: "swarm:unhide" });
+    } catch (_) {}
+    if (typeof window.__swarmUnhide === "function") {
+      try {
+        window.__swarmUnhide();
+      } catch (_) {}
+    }
+    await nextFrame();
+  }
+
+  let app = null;
+  let lastShot = null;
+
+  function start() {
+    if (app) return;
+    const a = (app = new App());
+    a.run().catch((err) => {
+      console.error("[swarm-rebuild]", err);
+      // A failed start must not leave the page hidden, an invisible overlay over it, or a
+      // half-started app that makes the next click "toggle off" instead of starting again.
+      unhidePage();
+      if (app === a) stop(false);
     });
   }
 
-  unlockSound() {
-    if (this.dead || !this.sfx || !this.sfx.blocked) return;
-    this.sfx.resume();
-    setTimeout(() => this.renderSoundBtn(), 80);
-  }
-
-  renderSoundBtn() {
-    const b = this.view.root.querySelector('[data-a="sound"]');
-    if (!b || !this.sfx) return;
-    const tap = this.sfx.on && this.sfx.blocked;
-    const key = this.sfx.on ? (tap ? "tap" : "on") : "off";
-    if (b._k === key) return;
-    b._k = key;
-    b.classList.toggle("off", key === "off");
-    b.classList.toggle("tap", tap);
-    const waves = '<path d="M11 5.5a3.5 3.5 0 0 1 0 5M12.8 3.6a6 6 0 0 1 0 8.8"/>';
-    const mute = '<path d="M11 6l4 4M15 6l-4 4"/>';
-    b.innerHTML = `${SPK_ICON}${key === "off" ? mute : waves}</svg>${tap ? "<span>Tap for sound</span>" : ""}`;
-    b.title = key === "off" ? "Sound off (M)" : "Sound on (M)";
-  }
-
-  frame(now) {
-    if (this.dead) return;
-    const dt = Math.min(0.05, (now - this.last) / 1000);
-    this.last = now;
-    try {
-      this.engine.step(dt);
-      if (this.tour) this.tourStep(dt);
-      this.view.render(this.engine);
-      if (!this._hudT || now - this._hudT > 200) {
-        this._hudT = now;
-        this.updateHud();
-        this.renderSoundBtn();
-      }
-    } catch (err) {
-      console.error("[swarm-rebuild]", err);
-    }
-    this.raf = requestAnimationFrame((t) => this.frame(t));
-  }
-
-  tourStep(dt) {
-    const E = this.engine;
-    if (!E.started) return;
-    const g = this.env.geom();
-    const maxY = this.env.scrollHeight() - g.vh;
-    if (g.sy >= maxY - 1) {
-      this.tourV = 0;
-      return;
-    }
-    const crew = Math.max(MIN_AGENTS, E.cursors.filter((c) => !c.leaving).length);
-    const backlog = E.backlog();
-    const target = backlog <= Math.max(4, crew * 0.6) ? 230 : backlog <= crew * 1.5 ? 80 : 0;
-    this.tourV += (target - this.tourV) * Math.min(1, dt * 2.5);
-    this.tourAcc += this.tourV * dt;
-    if (this.tourAcc >= 1) {
-      const d = Math.floor(this.tourAcc);
-      this.tourAcc -= d;
-      this.env.scrollBy(d);
-    }
-  }
-
-  updateHud() {
-    const E = this.engine;
-    const v = this.view;
-    if (!E.ready) return;
-    const workers = E.cursors.filter((c) => c.worked).length + E.retired;
-    const total = E.tasks.length;
-    const done = E.doneCount;
-    if (this.complete) return;
-    if (!E.started) v.status.innerHTML = `<b>${E.cursors.length}</b> agents ready<span class="sep"></span>${total.toLocaleString()} layers`;
-    else {
-      const pend = E.tasks.length - done;
-      const below = E.tasks.some((t) => t.state === "wait" && t.layer === "world" && t.gate > E.frontier);
-      v.status.innerHTML =
-        `<b>${workers}</b> agents<span class="sep"></span><b>${done.toLocaleString()}</b> / ${total.toLocaleString()} layers` +
-        (below && pend && !this.tour && E.backlog() === 0 ? `<span class="sep"></span>scroll to keep building` : "");
-    }
-    v.barFill.style.width = total ? `${(done / total) * 100}%` : "0%";
-    const busy = E.cursors.filter((c) => c.task).slice(-5);
-    const key = busy.map((c) => c.id).join(",");
-    if (key !== this._dots) {
-      this._dots = key;
-      v.dots.innerHTML = busy.map((c) => `<i style="background:${c.color}" title="${c.name}">${c.name[0]}</i>`).join("");
-    }
-  }
-
-  onComplete() {
-    this.complete = true;
-    // a hidden toolbar stays hidden so the end of a recording stays clean (H or the bottom edge brings it back)
-    if (this.sfx) this.sfx.finale();
-    const E = this.engine;
-    const v = this.view;
-    const workers = E.cursors.filter((c) => c.worked).length + E.retired;
-    const secs = (E.endTime - E.startTime).toFixed(1);
-    v.status.innerHTML = `Rebuilt by <b>${workers}</b> agents in <b>${secs}s</b>`;
-    v.barFill.style.width = "100%";
-    v.dots.innerHTML = "";
-    v.root.querySelector('[data-a="live"]').hidden = false;
-    v.root.querySelector('[data-a="replay"]').hidden = false;
-    v.root.querySelector('[data-a="tour"]').hidden = true;
-    v.root.querySelector('[data-a="speed"]').hidden = true;
-    this.tour = false;
-  }
-
-  destroy(reveal) {
-    unhidePage();
-    if (this.sfx) {
-      if (reveal) this.sfx.release();
-      this.sfx.close(reveal ? 1.4 : 0.25);
-    }
-    if (!this.view) {
-      // startup failed before the overlay existed
-      this.dead = true;
-      cancelAnimationFrame(this.raf);
-      return;
-    }
-    const finish = () => {
-      this.dead = true;
-      cancelAnimationFrame(this.raf);
-      for (const u of this.unbinds || []) u();
-      this.view.host.remove();
-    };
-    if (reveal) {
-      this.engine.releasing = true;
-      this.engine.flocking = true;
-      for (const c of this.engine.cursors) {
-        c.gen = null;
-        c.follow = false;
-      }
-      this.view.hud.classList.remove("on");
-      setTimeout(() => {
-        this.view.host.style.setProperty("opacity", "0", "important");
-      }, 450);
-      setTimeout(finish, 1150);
-    } else {
-      this.view.host.style.setProperty("transition", "opacity .25s ease", "important");
-      this.view.host.style.setProperty("opacity", "0", "important");
-      this.dead = true;
-      cancelAnimationFrame(this.raf);
-      for (const u of this.unbinds || []) u();
-      setTimeout(() => this.view.host.remove(), 260);
-    }
-  }
-}
-
-// background.js may have hidden everything but media for its screenshot;
-// put the page back once our canvas covers it (or if we bail out early).
-async function unhidePage() {
-  if (!window.__swarmHidden) return;
-  window.__swarmHidden = false;
-  try {
-    if (typeof chrome !== "undefined" && chrome.runtime && chrome.runtime.sendMessage) await chrome.runtime.sendMessage({ type: "swarm:unhide" });
-  } catch (_) { }
-  if (typeof window.__swarmUnhide === "function") {
-    try {
-      window.__swarmUnhide();
-    } catch (_) { }
-  }
-  await nextFrame();
-}
-
-let app = null;
-let lastShot = null;
-
-function start() {
-  if (app) return;
-  const a = (app = new App());
-  a.run().catch((err) => {
-    console.error("[swarm-rebuild]", err);
-    // A failed start must not leave the page hidden, an invisible overlay over it, or a
-    // half-started app that makes the next click "toggle off" instead of starting again.
-    unhidePage();
-    if (app === a) stop(false);
-  });
-}
-
-function stop(reveal) {
-  if (!app) return;
-  const a = app;
-  app = null;
-  // Session over: the next click must take a fresh screenshot, never reuse this one
-  // (or one a failed start never consumed). Replay goes through restart(), which keeps it.
-  lastShot = null;
-  window.__swarmShot = null;
-  a.destroy(reveal);
-}
-
-function restart() {
-  if (app) {
+  function stop(reveal) {
+    if (!app) return;
     const a = app;
     app = null;
-    a.dead = true;
-    cancelAnimationFrame(a.raf);
-    for (const u of a.unbinds || []) u();
-    a.view.host.remove();
-    if (a.sfx) a.sfx.close(0.1);
-    // rebuild from where the first run started so screenshot crops line up again
-    if (lastShot) a.env.scrollTo(lastShot.at.sy, lastShot.at.sx);
+    // Session over: the next click must take a fresh screenshot, never reuse this one
+    // (or one a failed start never consumed). Replay goes through restart(), which keeps it.
+    lastShot = null;
+    window.__swarmShot = null;
+    a.destroy(reveal);
   }
+
+  function restart() {
+    if (app) {
+      const a = app;
+      app = null;
+      a.dead = true;
+      cancelAnimationFrame(a.raf);
+      for (const u of a.unbinds || []) u();
+      a.view.host.remove();
+      if (a.sfx) a.sfx.close(0.1);
+      // rebuild from where the first run started so screenshot crops line up again
+      if (lastShot) a.env.scrollTo(lastShot.at.sy, lastShot.at.sx);
+    }
+    start();
+  }
+
+  window[KEY] = {
+    toggle() {
+      if (app) stop(false);
+      else start();
+    },
+    start,
+    stop,
+    get app() {
+      return app;
+    },
+    debug: { captureModel, detectEnv, Sound },
+  };
+
   start();
-}
-
-window[KEY] = {
-  toggle() {
-    if (app) stop(false);
-    else start();
-  },
-  start,
-  stop,
-  get app() {
-    return app;
-  },
-  debug: { captureModel, detectEnv, Sound },
-};
-
-start();
-}) ();
+})();
